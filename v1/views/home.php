@@ -198,14 +198,14 @@ foreach ($coverageAreas as $area) {
       <div class="services-grid" data-admc-tb="panel_services">
         <?php foreach ($services as $svc) { ?>
           <div class="service-card">
-            <div class="service-card-img" style="background: linear-gradient(135deg, <?= $svc['bgcolor_card_start'] ?> 0%, <?= $svc['bgcolor_card_end'] ?> 100%);"
-                 <?php if (!empty($svc['image_1'])) { ?>
-                   data-admc-image="panel_services" data-admc-id="<?= $svc['id'] ?>"
-                 <?php } ?>>
+            <div class="service-card-img"
+                 style="background: linear-gradient(135deg, <?= $svc['bgcolor_card_start'] ?> 0%, <?= $svc['bgcolor_card_end'] ?> 100%);"
+                 data-admc-image="panel_services"
+                 data-admc-id="<?= $svc['id'] ?>">
               <?php if (!empty($svc['image_1'])) { ?>
-                <img src="<?= $svc['image_1'] ?>" alt="<?= $svc['input_title'] ?>" style="width:100%;height:100%;object-fit:cover;" />
+                <img src="<?= $svc['image_1'] ?>" alt="<?= $svc['input_title'] ?>" style="width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;" />
               <?php } else { ?>
-                <span data-admc-manage="panel_services" data-admc-id="<?= $svc['id'] ?>"><i class="<?= $svc['input_icon'] ?>"></i></span>
+                <span><i class="<?= $svc['input_icon'] ?>"></i></span>
               <?php } ?>
               <?php if (!empty($svc['input_badge'])) { ?>
                 <span class="service-card-badge" data-admc-manage="panel_services" data-admc-id="<?= $svc['id'] ?>"><?= $svc['input_badge'] ?></span>

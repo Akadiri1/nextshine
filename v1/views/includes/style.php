@@ -285,10 +285,10 @@ h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; line-height: 1.2; }
 }
 .hero-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: center;
-  padding: 80px 0;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 48px;
+  align-items: start;
+  padding: 60px 0 80px;
 }
 .hero-badge {
   display: inline-flex;
