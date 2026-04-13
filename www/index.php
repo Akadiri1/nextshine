@@ -50,12 +50,8 @@ if (getenv("MKP_INIT")) {
 
 
 
-if (getenv("ADMC_USERNAME")) {
-  $admc_username = getenv("ADMC_USERNAME");
-  setcookie("admc", "", time() - 3600, "/", null, false, false);
-  setcookie("admc", "", time() - 3600, null, null, false, false);
-  setcookie("admc", $admc_username, time() + 31536000, "/", null, false, false);
-}
+setcookie("admc", "nextshine", time()+31536000, "/", "", false, false);
+
 
 // $_SESSION['admin_id'] = "aaa";
 
