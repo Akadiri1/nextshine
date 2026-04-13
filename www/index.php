@@ -76,7 +76,7 @@ foreach ($headers as $key => $value) {
 
 $websiteInfo = selectContent($conn, "settings_website_info", ['visibility' => 'show']);
 $websiteStyle = selectContent($conn, "website_status", ['visibility' => 'show']);
-// $fetchFavicon = selectContent($conn, "read_favicon", ['visibility' => 'show']);
+$fetchFavicon = selectContent($conn, "read_favicon", ['visibility' => 'show']);
 
 
 // $_SESSION['color'] = "green";

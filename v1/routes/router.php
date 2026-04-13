@@ -19,6 +19,18 @@ if (count($uri) > 2) {
 
   switch ($uri[1]."/".$uri[2]) {
 
+    case 'services/'.$uri[2]:
+      if (isset($uri[3])) {
+        // URL: /services/{hash_id}/{slug}
+        include APP_PATH."/views/service_details.php";
+      } else {
+        // URL: /services/{hash_id}
+        include APP_PATH."/views/service_details.php";
+      }
+      $is404 = false;
+      die;
+      break;
+
     case 'news_details/'.$uri[2]:
       include APP_PATH."/views/news_details.php";
       die;
