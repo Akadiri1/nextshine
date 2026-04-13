@@ -43,7 +43,7 @@ $navItems = selectContentAsc($conn, "panel_home_nav", ["visibility" => "show"], 
           <li><a href="/">Home</a></li>
           <?php foreach ($navItems as $nav) {
             $navHref = $nav['input_link'];
-            if (str_starts_with($navHref, '#')) { $navHref = '/' . $navHref; }
+            if ($navHref[0] === '#') { $navHref = '/' . $navHref; }
           ?>
             <li>
               <a href="<?= $navHref ?>"
@@ -73,7 +73,7 @@ $navItems = selectContentAsc($conn, "panel_home_nav", ["visibility" => "show"], 
     <a href="/" onclick="closeMenu()"><i class="fa-solid fa-house"></i> Home</a>
     <?php foreach ($navItems as $nav) {
       $mobileHref = $nav['input_link'];
-      if (str_starts_with($mobileHref, '#')) { $mobileHref = '/' . $mobileHref; }
+      if ($mobileHref[0] === '#') { $mobileHref = '/' . $mobileHref; }
     ?>
       <a href="<?= $mobileHref ?>" onclick="closeMenu()"><?= $nav['input_name'] ?></a>
     <?php } ?>
