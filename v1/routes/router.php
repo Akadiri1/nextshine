@@ -70,7 +70,27 @@ if (count($uri) > 2) {
   
   case ltrim($urlToPage['home'] ?? 'home', '/'):
     include APP_PATH."/views/home.php";
-    break;  
+    break;
+
+  case 'services':
+    include APP_PATH."/views/services.php";
+    die;
+    break;
+
+  case 'pricing':
+    include APP_PATH."/views/pricing.php";
+    die;
+    break;
+
+  case 'coverage':
+    include APP_PATH."/views/coverage.php";
+    die;
+    break;
+
+  case 'reviews':
+    include APP_PATH."/views/reviews.php";
+    die;
+    break;
 
   case 'about':
     include APP_PATH."/views/about.php";

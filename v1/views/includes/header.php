@@ -27,16 +27,9 @@ $navItems = selectContentAsc($conn, "panel_home_nav", ["visibility" => "show"], 
   <nav id="navbar">
     <div class="container">
       <div class="nav-inner">
-        <a href="/" class="nav-logo">
-          <?php if (!empty($logo_directory)) { ?>
-            <img src="<?= $logo_directory ?>" alt="<?= $site_name ?>" style="height:38px;" />
-          <?php } else { ?>
-            <div class="nav-logo-icon">NS</div>
-          <?php } ?>
-          <div class="nav-logo-text">
-            <span class="nav-logo-name"><?= $site_name ?? 'NextShine Cleaning' ?></span>
-            <span class="nav-logo-tag">A Division of NextShine Group Ltd</span>
-          </div>
+        <a href="/" class="nav-logo" aria-label="<?= $site_name ?? 'NextShine Cleaning' ?>">
+          <img src="/uploads/nsg-logo-on-dark-bg.png" alt="<?= $site_name ?? 'NextShine Cleaning' ?>" class="nav-logo-img nav-logo-img-dark" />
+          <img src="/uploads/nsg-logo-on-light-bg.png" alt="<?= $site_name ?? 'NextShine Cleaning' ?>" class="nav-logo-img nav-logo-img-light" />
         </a>
 
         <ul class="nav-links" data-admc-tb="panel_home_nav">
@@ -57,7 +50,7 @@ $navItems = selectContentAsc($conn, "panel_home_nav", ["visibility" => "show"], 
 
         <div class="nav-cta">
           <span class="nav-phone"><i class="fa-solid fa-phone"></i> <?= $site_phone ?? '' ?></span>
-          <a href="/#contact" class="btn btn-primary">Get a Quote</a>
+          <a href="/contact" class="btn btn-primary">Get a Quote</a>
         </div>
 
         <div class="hamburger" onclick="openMenu()">
@@ -78,6 +71,6 @@ $navItems = selectContentAsc($conn, "panel_home_nav", ["visibility" => "show"], 
       <a href="<?= $mobileHref ?>" onclick="closeMenu()"><?= $nav['input_name'] ?></a>
     <?php } ?>
     <div class="mobile-menu-divider"></div>
-    <a href="/#contact" onclick="closeMenu()" class="btn btn-primary btn-lg">Get a Free Quote</a>
+    <a href="/contact" onclick="closeMenu()" class="btn btn-primary btn-lg">Get a Free Quote</a>
     <a href="tel:<?= $site_phone ?? '' ?>" class="mobile-menu-phone"><i class="fa-solid fa-phone"></i> <?= $site_phone ?? '' ?></a>
   </div>

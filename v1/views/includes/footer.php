@@ -21,17 +21,9 @@ foreach ($footerLinksAll as $fl) {
       <div class="footer-top">
 
         <div>
-          <div class="nav-logo" style="margin-bottom:0;">
-            <?php if (!empty($logo_directory)) { ?>
-              <img src="<?= $logo_directory ?>" alt="<?= $site_name ?>" style="height:38px;" />
-            <?php } else { ?>
-              <div class="nav-logo-icon">NS</div>
-            <?php } ?>
-            <div class="nav-logo-text">
-              <span class="nav-logo-name" style="color:white;"><?= $site_name ?? 'NextShine Cleaning' ?></span>
-              <span class="nav-logo-tag">A Division of NextShine Group Ltd</span>
-            </div>
-          </div>
+          <a href="/" class="footer-logo">
+            <img src="/uploads/nsg-logo-on-dark-bg.png" alt="<?= $site_name ?? 'NextShine Cleaning' ?>" style="height:48px;width:auto;" />
+          </a>
           <p class="footer-brand-desc"
              data-admc-manage="settings_home_footer"
              data-admc-id="<?= $footerSettings['id'] ?>">
@@ -106,10 +98,23 @@ foreach ($footerLinksAll as $fl) {
       </div>
 
       <div class="footer-bottom">
-        <p data-admc-manage="settings_home_footer"
-           data-admc-id="<?= $footerSettings['id'] ?>">
-          <?= $footerSettings['input_copyright'] ?>
-        </p>
+        <div>
+          <p data-admc-manage="settings_home_footer"
+             data-admc-id="<?= $footerSettings['id'] ?>">
+            <?= $footerSettings['input_copyright'] ?>
+          </p>
+          <?php if (!empty($footerSettings['input_registration_number'] ?? '')) { ?>
+            <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:4px;"
+               data-admc-manage="settings_home_footer"
+               data-admc-id="<?= $footerSettings['id'] ?>">
+              Company Registration Number: <?= $footerSettings['input_registration_number'] ?>
+            </p>
+          <?php } else { ?>
+            <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:4px;">
+              Company Registration Number: <em>— to be provided —</em>
+            </p>
+          <?php } ?>
+        </div>
         <div class="footer-legal">
           <?php foreach ($footerLegal as $link) { ?>
             <a href="<?= $link['input_link'] ?>"
@@ -124,11 +129,21 @@ foreach ($footerLinksAll as $fl) {
   </footer>
 
   <!-- FLOATING CTA BUTTONS -->
+  <?php
+    $fWhatsapp = $websiteInfo[0]['input_whatsapp_number'] ?? '';
+    $fWhatsappUrl = !empty($fWhatsapp) ? 'https://wa.me/' . preg_replace('/\D/', '', $fWhatsapp) : '#';
+  ?>
+  <!-- Persistent WhatsApp bubble (always visible) -->
+  <a href="<?= $fWhatsappUrl ?>" target="_blank" rel="noopener" class="whatsapp-bubble" aria-label="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="whatsapp-bubble-tooltip">Chat with us</span>
+  </a>
+
   <div class="float-cta" id="floatCta" style="opacity:0;transition:opacity 0.4s;">
     <a href="tel:<?= $site_phone ?? '' ?>" class="float-btn float-btn-call">
-      <i class="fa-solid fa-phone"></i> Call Now
+      <i class="fa-solid fa-phone"></i> Call
     </a>
-    <a href="#contact" class="float-btn float-btn-primary">
+    <a href="/contact" class="float-btn float-btn-primary">
       <i class="fa-solid fa-clipboard-list"></i> Get a Quote
     </a>
   </div>
