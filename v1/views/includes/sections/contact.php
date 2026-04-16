@@ -15,14 +15,14 @@ $contactHeader = selectContent($conn, "settings_home_contact", ["visibility" => 
             <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
             <div class="contact-item-text">
               <span class="contact-item-label" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_phone_label'] ?></span>
-              <span class="contact-item-value"><?= $site_phone ?? '' ?></span>
+              <a href="tel:<?= $site_phone ?? '' ?>" class="contact-item-value"><?= $site_phone ?? '' ?></a>
             </div>
           </div>
           <div class="contact-item">
             <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
             <div class="contact-item-text">
               <span class="contact-item-label" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_email_label'] ?></span>
-              <span class="contact-item-value"><?= $site_email ?? '' ?></span>
+              <a href="mailto:<?= $site_email ?? '' ?>" class="contact-item-value"><?= $site_email ?? '' ?></a>
             </div>
           </div>
           <div class="contact-item">

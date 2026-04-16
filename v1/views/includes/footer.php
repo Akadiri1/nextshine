@@ -85,8 +85,8 @@ foreach ($footerLinksAll as $fl) {
             <?= $footerSettings['input_contact_title'] ?>
           </h4>
           <ul class="footer-links">
-            <li><i class="fa-solid fa-phone"></i> <?= $site_phone ?? '' ?></li>
-            <li><i class="fa-solid fa-envelope"></i> <?= $site_email ?? '' ?></li>
+            <li><a href="tel:<?= $site_phone ?? '' ?>"><i class="fa-solid fa-phone"></i> <?= $site_phone ?? '' ?></a></li>
+            <li><a href="mailto:<?= $site_email ?? '' ?>"><i class="fa-solid fa-envelope"></i> <?= $site_email ?? '' ?></a></li>
             <li><i class="fa-brands fa-whatsapp"></i> <?= $footerSettings['input_whatsapp_text'] ?></li>
             <li><i class="fa-solid fa-location-dot"></i> <?= $site_address ?? 'Edinburgh & Surrounding Areas' ?></li>
             <li style="margin-top:12px;color:rgba(255,255,255,0.4);font-size:0.78rem;">

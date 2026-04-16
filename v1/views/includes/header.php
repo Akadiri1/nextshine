@@ -49,7 +49,7 @@ $navItems = selectContentAsc($conn, "panel_home_nav", ["visibility" => "show"], 
         </ul>
 
         <div class="nav-cta">
-          <span class="nav-phone"><i class="fa-solid fa-phone"></i> <?= $site_phone ?? '' ?></span>
+          <a href="tel:<?= $site_phone ?? '' ?>" class="nav-phone"><i class="fa-solid fa-phone"></i> <?= $site_phone ?? '' ?></a>
           <a href="/contact" class="btn btn-primary">Get a Quote</a>
         </div>
 
