@@ -1,13 +1,20 @@
 <?php
-$request_headers = getallheaders();
 if ($_SERVER['REQUEST_METHOD'] !== "POST") {
     http_response_code(405);
     die;
 }
 
-if (!in_array($request_headers['Host'], $headersName)) {
-    http_response_code(403);
-    die;
+// Allow requests from same host (no external CORS needed for same-origin fetch)
+$currentHost = $_SERVER['HTTP_HOST'] ?? '';
+$headersList = isset($headersName) ? $headersName : [];
+if (!empty($headersList) && !in_array($currentHost, $headersList)) {
+    // Host not in whitelist — still allow if referrer matches current host
+    $referer = $_SERVER['HTTP_REFERER'] ?? '';
+    if (empty($referer) || strpos($referer, $currentHost) === false) {
+        http_response_code(403);
+        echo json_encode(['failed' => 'Unauthorized request.']);
+        die;
+    }
 }
 
 $json = file_get_contents('php://input');

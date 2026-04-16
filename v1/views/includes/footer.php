@@ -175,49 +175,59 @@ foreach ($footerLinksAll as $fl) {
       btn.classList.add('active');
     }
 
-    // Contact form submission
+    // Contact form submission — uses name attributes for reliable field reading
     function submitForm(e) {
       e.preventDefault();
-      const form = e.target;
-      const btn = form.querySelector('.form-submit');
-      const originalText = btn.textContent;
+      var form = e.target;
+      var btn = form.querySelector('.form-submit');
+      var originalText = btn.textContent;
       btn.textContent = 'Sending...';
       btn.disabled = true;
 
-      const inputs = form.querySelectorAll('input, select, textarea');
-      const data = {
-        first_name: inputs[0]?.value || '',
-        last_name:  inputs[1]?.value || '',
-        phone:      inputs[2]?.value || '',
-        email:      inputs[3]?.value || '',
-        service:    inputs[4]?.value || '',
-        property_size: inputs[5]?.value || '',
-        postcode:   inputs[6]?.value || '',
-        notes:      inputs[7]?.value || ''
+      // Read by name attribute (robust across all form layouts)
+      function getVal(name) {
+        var el = form.querySelector('[name="' + name + '"]');
+        return el ? el.value : '';
+      }
+
+      var data = {
+        first_name: getVal('first_name'),
+        last_name: getVal('last_name'),
+        phone: getVal('phone'),
+        email: getVal('email'),
+        service: getVal('service'),
+        property_size: getVal('property_size'),
+        postcode: getVal('postcode'),
+        notes: getVal('notes')
       };
 
-      fetch('/quote-request', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-      .then(r => r.json())
-      .then(res => {
-        if (res.success) {
-          btn.textContent = '✓ Request Sent! We\'ll be in touch shortly.';
-          btn.style.background = '#16a34a';
-          form.reset();
-        } else {
-          btn.textContent = '✗ ' + (res.failed || 'Error — please try again.');
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/quote-request', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function() {
+        try {
+          var res = JSON.parse(xhr.responseText);
+          if (res.success) {
+            btn.textContent = '\u2713 Request Sent! We\'ll be in touch shortly.';
+            btn.style.background = '#16a34a';
+            form.reset();
+          } else {
+            btn.textContent = '\u2717 ' + (res.failed || 'Error \u2014 please try again.');
+            btn.style.background = '#dc2626';
+            setTimeout(function() { btn.textContent = originalText; btn.style.background = ''; btn.disabled = false; }, 4000);
+          }
+        } catch(parseErr) {
+          btn.textContent = '\u2717 Server error \u2014 please call us directly.';
           btn.style.background = '#dc2626';
-          setTimeout(() => { btn.textContent = originalText; btn.style.background = ''; btn.disabled = false; }, 4000);
+          setTimeout(function() { btn.textContent = originalText; btn.style.background = ''; btn.disabled = false; }, 4000);
         }
-      })
-      .catch(() => {
-        btn.textContent = '✗ Network error — please call us directly.';
+      };
+      xhr.onerror = function() {
+        btn.textContent = '\u2717 Network error \u2014 please call us directly.';
         btn.style.background = '#dc2626';
-        setTimeout(() => { btn.textContent = originalText; btn.style.background = ''; btn.disabled = false; }, 4000);
-      });
+        setTimeout(function() { btn.textContent = originalText; btn.style.background = ''; btn.disabled = false; }, 4000);
+      };
+      xhr.send(JSON.stringify(data));
     }
 
     // Hero quick quote form

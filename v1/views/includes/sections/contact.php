@@ -48,26 +48,26 @@ $contactHeader = selectContent($conn, "settings_home_contact", ["visibility" => 
           <div class="form-row">
             <div class="form-group">
               <label>First Name *</label>
-              <input type="text" placeholder="Your first name" required />
+              <input type="text" name="first_name" placeholder="Your first name" required />
             </div>
             <div class="form-group">
               <label>Last Name</label>
-              <input type="text" placeholder="Your last name" />
+              <input type="text" name="last_name" placeholder="Your last name" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label>Phone Number *</label>
-              <input type="tel" placeholder="07xxx xxx xxx" required />
+              <input type="tel" name="phone" placeholder="07xxx xxx xxx" required />
             </div>
             <div class="form-group">
               <label>Email Address</label>
-              <input type="email" placeholder="your@email.com" />
+              <input type="email" name="email" placeholder="your@email.com" />
             </div>
           </div>
           <div class="form-group">
             <label>Service Required *</label>
-            <select required>
+            <select name="service" required>
               <option value="">Select a service...</option>
               <option>End-of-Tenancy Clean (Fixed Price)</option>
               <option>Regular Domestic Cleaning (Hourly)</option>
@@ -81,7 +81,7 @@ $contactHeader = selectContent($conn, "settings_home_contact", ["visibility" => 
           <div class="form-row">
             <div class="form-group">
               <label>Property Size</label>
-              <select>
+              <select name="property_size">
                 <option value="">Select...</option>
                 <option>Studio / Bedsit</option>
                 <option>1 Bedroom</option>
@@ -93,12 +93,12 @@ $contactHeader = selectContent($conn, "settings_home_contact", ["visibility" => 
             </div>
             <div class="form-group">
               <label>Postcode *</label>
-              <input type="text" placeholder="e.g. EH1 1AA" required />
+              <input type="text" name="postcode" placeholder="e.g. EH1 1AA" required />
             </div>
           </div>
           <div class="form-group">
             <label>Additional Notes</label>
-            <textarea rows="3" placeholder="Anything else we should know? (e.g. furnished, oven clean needed, access details...)"></textarea>
+            <textarea name="notes" rows="3" placeholder="Anything else we should know? (e.g. furnished, oven clean needed, access details...)"></textarea>
           </div>
           <button type="submit" class="btn btn-primary btn-lg form-submit">
             Send My Quote Request →

@@ -37,73 +37,40 @@ $whatsappUrl = !empty($whatsappNumber) ? 'https://wa.me/' . preg_replace('/\D/',
         </div>
 
         <div class="hero-stats">
+          <?php if (!empty($hero['input_stat_1_value'])) { ?>
           <div class="hero-stat-item">
             <span class="hero-stat-num" data-admc-manage="settings_home_hero" data-admc-id="<?= $hero['id'] ?>"><?= $hero['input_stat_1_value'] ?></span>
             <span class="hero-stat-label" data-admc-manage="settings_home_hero" data-admc-id="<?= $hero['id'] ?>"><?= $hero['input_stat_1_label'] ?></span>
           </div>
+          <?php } ?>
+          <?php if (!empty($hero['input_stat_2_value'])) { ?>
           <div class="hero-stat-item">
             <span class="hero-stat-num" data-admc-manage="settings_home_hero" data-admc-id="<?= $hero['id'] ?>"><?= $hero['input_stat_2_value'] ?></span>
             <span class="hero-stat-label" data-admc-manage="settings_home_hero" data-admc-id="<?= $hero['id'] ?>"><?= $hero['input_stat_2_label'] ?></span>
           </div>
+          <?php } ?>
+          <?php if (!empty($hero['input_stat_3_value'])) { ?>
           <div class="hero-stat-item">
             <span class="hero-stat-num" data-admc-manage="settings_home_hero" data-admc-id="<?= $hero['id'] ?>"><?= $hero['input_stat_3_value'] ?></span>
             <span class="hero-stat-label" data-admc-manage="settings_home_hero" data-admc-id="<?= $hero['id'] ?>"><?= $hero['input_stat_3_label'] ?></span>
           </div>
+          <?php } ?>
         </div>
       </div>
 
-      <!-- Right: Quick Quote Card (form — NOT editable) -->
-      <div class="hero-card">
-        <p class="hero-card-title"
-           data-admc-manage="settings_home_hero"
-           data-admc-id="<?= $hero['id'] ?>">
-          <i class="fa-solid fa-bolt"></i> <?= $hero['input_card_title'] ?>
+      <!-- Right: Pricing CTA Card -->
+      <div class="hero-card" style="text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:320px;">
+        <div style="font-size:3.5rem;margin-bottom:20px;color:var(--teal-light);"><i class="fa-solid fa-tag"></i></div>
+        <h2 style="font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:800;color:var(--white);margin-bottom:12px;">Transparent Pricing</h2>
+        <p style="font-size:0.95rem;color:rgba(255,255,255,0.7);margin-bottom:28px;line-height:1.6;max-width:320px;">
+          Fixed prices for end-of-tenancy. Competitive hourly rates for domestic and commercial. No hidden fees.
         </p>
-        <form class="quote-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label>First Name</label>
-              <input type="text" placeholder="e.g. James" />
-            </div>
-            <div class="form-group">
-              <label>Phone Number</label>
-              <input type="tel" placeholder="07xxx xxx xxx" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Service Needed</label>
-            <select>
-              <option value="">Select a service...</option>
-              <option>End-of-Tenancy Clean (Fixed Price)</option>
-              <option>Regular Domestic Cleaning</option>
-              <option>Commercial / Office Clean</option>
-              <option>Deep Clean (One-off)</option>
-              <option>Post-Construction Clean</option>
-              <option>Move-In Welcome Clean</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Property Size</label>
-              <select>
-                <option value="">Select...</option>
-                <option>Studio / Bedsit</option>
-                <option>1 Bedroom</option>
-                <option>2 Bedrooms</option>
-                <option>3 Bedrooms</option>
-                <option>4+ Bedrooms</option>
-                <option>Office / Commercial</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Postcode</label>
-              <input type="text" placeholder="e.g. EH1 1AA" />
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">
-            Get My Quote →
-          </button>
-        </form>
+        <a href="/pricing" class="btn btn-primary btn-lg" style="width:100%;max-width:280px;justify-content:center;">
+          <i class="fa-solid fa-tag"></i> Get Current Pricing
+        </a>
+        <a href="/contact" class="btn btn-outline" style="margin-top:12px;width:100%;max-width:280px;justify-content:center;">
+          <i class="fa-solid fa-clipboard-list"></i> Request a Free Quote
+        </a>
       </div>
     </div>
   </div>
