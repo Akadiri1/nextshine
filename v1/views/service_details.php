@@ -153,14 +153,13 @@ foreach ($allServices as $s) {
               <input type="hidden" value="<?= $service['input_title'] ?>" />
               <div class="form-group">
                 <label>Property Size</label>
-                <select>
+                <select name="property_size">
                   <option value="">Select...</option>
-                  <option>Studio / Bedsit</option>
-                  <option>1 Bedroom</option>
-                  <option>2 Bedrooms</option>
-                  <option>3 Bedrooms</option>
-                  <option>4+ Bedrooms</option>
-                  <option>Office / Commercial</option>
+                  <?php
+                  $svcFormPropertyOptions = selectContentAsc($conn, "selection_form_property_sizes", ["visibility" => "show"], "input_order", 50);
+                  foreach ($svcFormPropertyOptions as $opt) { ?>
+                    <option value="<?= $opt['input_name'] ?>"><?= $opt['input_name'] ?></option>
+                  <?php } ?>
                 </select>
               </div>
               <div class="form-group">

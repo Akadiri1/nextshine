@@ -1,5 +1,9 @@
 <?php
 $contactHeader = selectContent($conn, "settings_home_contact", ["visibility" => "show"])[0];
+
+// Dynamic form selections (admin-editable)
+$formServiceOptions = selectContentAsc($conn, "selection_form_services", ["visibility" => "show"], "input_order", 50);
+$formPropertyOptions = selectContentAsc($conn, "selection_form_property_sizes", ["visibility" => "show"], "input_order", 50);
 ?>
 <section id="contact" class="section">
   <div class="container">
@@ -69,13 +73,9 @@ $contactHeader = selectContent($conn, "settings_home_contact", ["visibility" => 
             <label>Service Required *</label>
             <select name="service" required>
               <option value="">Select a service...</option>
-              <option>End-of-Tenancy Clean (Fixed Price)</option>
-              <option>Regular Domestic Cleaning (Hourly)</option>
-              <option>Commercial / Office Cleaning</option>
-              <option>One-Off Deep Clean</option>
-              <option>Post-Construction / Renovation Clean</option>
-              <option>AirBnB / Short-Let Turnover</option>
-              <option>Void Period Maintenance Clean</option>
+              <?php foreach ($formServiceOptions as $opt) { ?>
+                <option value="<?= $opt['input_name'] ?>"><?= $opt['input_name'] ?></option>
+              <?php } ?>
             </select>
           </div>
           <div class="form-row">
@@ -83,12 +83,9 @@ $contactHeader = selectContent($conn, "settings_home_contact", ["visibility" => 
               <label>Property Size</label>
               <select name="property_size">
                 <option value="">Select...</option>
-                <option>Studio / Bedsit</option>
-                <option>1 Bedroom</option>
-                <option>2 Bedrooms</option>
-                <option>3 Bedrooms</option>
-                <option>4+ Bedrooms</option>
-                <option>Office / Commercial</option>
+                <?php foreach ($formPropertyOptions as $opt) { ?>
+                  <option value="<?= $opt['input_name'] ?>"><?= $opt['input_name'] ?></option>
+                <?php } ?>
               </select>
             </div>
             <div class="form-group">

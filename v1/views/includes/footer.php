@@ -3,12 +3,13 @@ $footerSettings = selectContent($conn, "settings_home_footer", ["visibility" => 
 $footerLinksAll = selectContentAsc($conn, "panel_footer_links", ["visibility" => "show"], "input_order", 30);
 $footerSocials = selectContentAsc($conn, "panel_footer_socials", ["visibility" => "show"], "input_order", 10);
 
-$footerServices = [];
+// Fetch actual services for direct detail-page links
+$footerServiceItems = selectContentAsc($conn, "panel_services", ["visibility" => "show"], "input_order", 20);
+
 $footerCompany = [];
 $footerLegal = [];
 foreach ($footerLinksAll as $fl) {
     switch ($fl['input_group']) {
-        case 'services': $footerServices[] = $fl; break;
         case 'company':  $footerCompany[] = $fl; break;
         case 'legal':    $footerLegal[] = $fl; break;
     }
@@ -46,13 +47,14 @@ foreach ($footerLinksAll as $fl) {
               data-admc-id="<?= $footerSettings['id'] ?>">
             <?= $footerSettings['input_services_title'] ?>
           </h4>
-          <ul class="footer-links" data-admc-tb="panel_footer_links">
-            <?php foreach ($footerServices as $link) { ?>
+          <ul class="footer-links" data-admc-tb="panel_services">
+            <?php foreach ($footerServiceItems as $fSvc) { ?>
+              <?php $fSvcUrl = '/services/' . $fSvc['hash_id'] . '/' . ($fSvc['input_slug'] ?? $fSvc['hash_id']); ?>
               <li>
-                <a href="<?= $link['input_link'] ?>"
-                   data-admc-manage="panel_footer_links"
-                   data-admc-id="<?= $link['id'] ?>">
-                  <?= $link['input_name'] ?>
+                <a href="<?= $fSvcUrl ?>"
+                   data-admc-manage="panel_services"
+                   data-admc-id="<?= $fSvc['id'] ?>">
+                  <?= $fSvc['input_title'] ?>
                 </a>
               </li>
             <?php } ?>
