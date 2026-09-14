@@ -40,10 +40,7 @@ $cssVersion = @filemtime(D_PATH . '/www/assets/css/app.css') ?: '1';
   <meta property="og:title" content="<?= htmlspecialchars($webpage_title) ?>">
   <meta property="og:description" content="<?= htmlspecialchars($metaDescription) ?>">
 
-  <?php if (!empty($favicon)): ?>
-    <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
-    <link rel="apple-touch-icon" href="<?= htmlspecialchars($favicon) ?>">
-  <?php endif; ?>
+  <?php include APP_PATH . "/views/includes/partials/favicon.php"; ?>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -40,9 +40,7 @@ $beautyActive = function ($link) {
   <meta property="og:title" content="<?= htmlspecialchars($beautyTitle) ?>">
   <meta property="og:description" content="<?= htmlspecialchars($beautySite['text_meta_description'] ?? '') ?>">
 
-  <?php if (!empty($favicon)): ?>
-    <link rel="icon" type="image/png" href="<?= htmlspecialchars($favicon) ?>">
-  <?php endif; ?>
+  <?php include APP_PATH . "/views/includes/partials/favicon.php"; ?>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

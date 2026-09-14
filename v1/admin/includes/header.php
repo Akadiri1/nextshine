@@ -47,7 +47,7 @@ if(!in_array($adminDetails[0]['level'],$level_check)){
 
 
   <!-- Favicon icon -->
-  <link rel="icon" href="/logo.png" type="image/x-icon">
+  <link rel="icon" href="/favicon.png" type="image/x-icon">
   <!-- fontawesome icon -->
   <link rel="stylesheet" href="/da/assets/fonts/fontawesome/css/fontawesome-all.min.css">
   <link rel="stylesheet" href="/da/assets/fonts/material/css/materialdesignicons.min.css">
