@@ -16,7 +16,7 @@ $content = selectContent($conn,$data,$where2);
 
 //used to load new style for new admin console code
 $stranger = true;
-include APP_PATH."/demo_views/admin/include/link_include.php";
+include APP_PATH."/admin/includes/header.php";
 $error= [];
 if(array_key_exists('submit', $_POST)){
 

@@ -15,48 +15,48 @@ $query_string = "";
 switch ($uri[1]) {
   case "verify?token=$token":
   include APP_PATH."/auth/verify_registration.php";
-  break;
+  die;
 
   case "forgotPassword":
   include APP_PATH."/auth/forgot_password.php";
-  break;
+  die;
 
   case "forgotPassword2":
   include APP_PATH."/auth/forgot_password2.php";
-  break;
+  die;
 
   case "confirmRecovery":
   include APP_PATH."/auth/confirm_recovery.php";
-  break;
+  die;
   case "confirmRecovery":
   include APP_PATH."/auth/confirm_recovery.php";
-  break;
+  die;
 
   case "login":
   include APP_PATH."/auth/login.php";
-  break;
+  die;
   case "signup":
   include APP_PATH."/auth/signup.php";
-  break;
+  die;
   case "secure":
   include APP_PATH."/auth/secure.php";
-  break;
+  die;
   case "secure?".$query_string:
   include APP_PATH."/auth/secure.php";
-  break;
+  die;
   case "login?".$query_string:
   include APP_PATH."/auth/login.php";
-  break;
+  die;
   case "signup?".$query_string:
   include APP_PATH."/auth/signup.php";
-  break;
+  die;
 
   case "confirm?token=$token":
   include APP_PATH."/auth/confirm.php";
-  break;
+  die;
 
   case "changePassword":
   include APP_PATH."/auth/change_password.php";
-  break;
+  die;
 
 }

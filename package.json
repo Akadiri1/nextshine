@@ -1,0 +1,16 @@
+{
+  "name": "nextshine",
+  "version": "1.0.0",
+  "description": "NextShine Cleaning website and the NextShine Beauty subdomain",
+  "private": true,
+  "scripts": {
+    "dev": "tailwindcss -i ./src/input.css -o ./www/assets/css/app.css --watch",
+    "dev:beauty": "tailwindcss -c tailwind.beauty.config.js -i ./src/beauty.css -o ./www/assets/css/beauty.css --watch",
+    "build": "npm run build:cleaning && npm run build:beauty",
+    "build:cleaning": "tailwindcss -i ./src/input.css -o ./www/assets/css/app.css --minify",
+    "build:beauty": "tailwindcss -c tailwind.beauty.config.js -i ./src/beauty.css -o ./www/assets/css/beauty.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

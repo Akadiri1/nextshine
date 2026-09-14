@@ -1,0 +1,575 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   NextShine Beauty design system (beauty subdomain)
+
+   Reproduces the client's beauty.html. It is a separate business from
+   NextShine Cleaning, so this file shares nothing with src/input.css.
+   Components keep beauty.html's class names; grids and responsive stacking
+   are utilities in v1/views/beauty.
+
+   Breakpoints (tailwind.beauty.config.js): base = up to 480px,
+   xs = 481px and up, md = 769px and up.
+   ========================================================================== */
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream font-sans text-charcoal;
+    line-height: 1.7;
+  }
+
+  /* Preflight flattens headings; the design relies on the browser's bold. */
+  h1, h2, h3, h4 {
+    @apply font-serif font-bold;
+    line-height: 1.2;
+  }
+
+  /* Preflight makes form controls inherit the body line-height; the design
+     was built on the browser default. */
+  button, input, select, textarea {
+    line-height: normal;
+  }
+
+  section {
+    padding: 60px 5%;
+  }
+  @screen xs {
+    section { padding: 90px 5%; }
+  }
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+@layer components {
+
+  /* --- Top bar ----------------------------------------------------------- */
+  .top-bar {
+    @apply fixed inset-x-0 top-0 z-[101] flex items-center justify-center bg-charcoal px-[5%] py-2;
+  }
+  .top-bar-left {
+    @apply flex items-center justify-center gap-2 text-center text-white/50;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+  .top-bar-left span {
+    @apply font-semibold text-gold-light;
+  }
+
+  /* --- Navigation -------------------------------------------------------- */
+  .beauty-nav {
+    @apply fixed inset-x-0 top-[33px] z-[100] flex items-center justify-between border-b border-gold/20
+           bg-[rgba(250,246,239,0.97)] px-[5%] py-4 backdrop-blur-[8px];
+  }
+  /* From 769px: logo | links | button, with the links in the middle of the
+     page. A side too wide for its half pushes them over rather than overlapping. */
+  @media (min-width: 769px) {
+    .beauty-nav {
+      display: grid;
+      grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+    }
+  }
+  .nav-logo {
+    @apply flex flex-col gap-[2px] justify-self-start leading-none;
+  }
+  .logo-group {
+    @apply font-serif font-bold text-charcoal;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+  }
+  .logo-group span {
+    @apply text-wine;
+  }
+  .logo-sub {
+    @apply font-semibold uppercase text-gold;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+  }
+  .nav-links {
+    @apply hidden items-center gap-1.5 md:flex;
+  }
+  .nav-links a {
+    @apply rounded-sm px-3 py-1.5 font-medium uppercase text-mid;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-links a:hover     { @apply bg-cream-dark text-charcoal; }
+  .nav-links a.is-active { @apply bg-wine/[.07] font-bold text-wine; }
+  .nav-cta {
+    @apply hidden justify-self-end whitespace-nowrap rounded-sm bg-wine px-5 py-[9px] font-semibold uppercase text-white md:inline;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover {
+    @apply bg-wine-dark;
+  }
+  .hamburger {
+    @apply flex cursor-pointer flex-col gap-[5px] md:hidden;
+  }
+  .hamburger span {
+    @apply block h-0.5 w-6 bg-charcoal;
+    transition: 0.3s;
+  }
+
+  /* --- Mobile menu ------------------------------------------------------- */
+  .mobile-menu {
+    @apply fixed inset-x-0 top-[99px] z-[99] hidden flex-col gap-1 border-b border-gold/20 bg-cream px-[5%] py-5;
+  }
+  .mobile-menu.is-open {
+    @apply flex;
+  }
+  .mobile-menu a {
+    @apply border-b border-gold/[.12] py-3 font-medium uppercase text-charcoal;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover,
+  .mobile-menu a.is-active {
+    @apply text-wine;
+  }
+  .mobile-menu .m-cta {
+    @apply mt-2 rounded-sm border-b-0 bg-wine p-[13px] text-center font-bold text-white;
+  }
+
+  /* --- Hero -------------------------------------------------------------- */
+  .hero {
+    @apply relative flex min-h-screen items-center overflow-hidden px-[5%] pb-20 pt-[110px] md:pt-[145px];
+    background: linear-gradient(135deg, #4A1028 0%, #6B1E3B 50%, #8B2A4F 100%);
+  }
+  .hero::before {
+    content: '';
+    @apply absolute inset-0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(196, 151, 58, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(196, 151, 58, 0.08) 0%, transparent 40%);
+  }
+  /* Adinkra-inspired grid */
+  .hero-pattern {
+    @apply absolute right-[-60px] top-1/2 h-[520px] w-[520px] -translate-y-1/2 opacity-[.06];
+    background-image:
+      repeating-linear-gradient(0deg, #E8C06A 0px, #E8C06A 1px, transparent 1px, transparent 40px),
+      repeating-linear-gradient(90deg, #E8C06A 0px, #E8C06A 1px, transparent 1px, transparent 40px);
+  }
+  .hero-content {
+    @apply relative max-w-[640px];
+  }
+  .hero-eyebrow {
+    @apply mb-5 inline-block border-b border-gold/40 pb-2.5 font-semibold uppercase text-gold-light;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+  }
+  .hero-title {
+    @apply mb-6 text-white;
+    font-size: clamp(2.8rem, 6vw, 4.8rem);
+  }
+  .hero-title em {
+    @apply italic text-gold-light;
+  }
+  .hero-text {
+    @apply mb-10 max-w-[480px] font-light text-white/[.82];
+    font-size: 1.05rem;
+  }
+  .hero-badges {
+    @apply mt-12 flex flex-wrap gap-5 border-t border-white/[.12] pt-8 md:gap-[30px];
+  }
+  .hero-badge {
+    @apply text-center;
+  }
+  .hero-badge strong {
+    @apply block font-serif text-gold-light;
+    font-size: 1.8rem;
+  }
+  .hero-badge span {
+    @apply uppercase text-white/60;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* --- Buttons ----------------------------------------------------------- */
+  .btn-primary {
+    @apply inline-block rounded-sm bg-gold px-8 py-3.5 text-center font-bold uppercase text-charcoal;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover {
+    @apply bg-gold-light;
+    transform: translateY(-1px);
+  }
+  .btn-outline {
+    @apply inline-block rounded-sm border border-white/50 px-8 py-3.5 text-center font-medium uppercase text-white;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-outline:hover {
+    @apply border-gold-light bg-gold/10;
+  }
+
+  /* --- Section chrome ---------------------------------------------------- */
+  .section-label {
+    @apply mb-3 block font-semibold uppercase text-gold;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+  }
+  .section-title {
+    @apply mb-4 text-charcoal;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+  .section-sub {
+    @apply mb-[50px] max-w-[520px] text-mid;
+    font-size: 0.95rem;
+  }
+  .divider {
+    @apply h-0.5 w-12 bg-gold;
+    margin: 16px 0 24px;
+  }
+
+  /* Text link with an underline rule, used across services and the shop */
+  .sales-enquire {
+    @apply mt-5 inline-block border-b border-wine pb-0.5 font-semibold uppercase text-wine;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+  .sales-enquire:hover {
+    @apply border-gold text-gold;
+  }
+
+  /* --- Why-us strip ------------------------------------------------------ */
+  .about-strip {
+    @apply flex flex-wrap items-center justify-center gap-8 bg-wine-dark px-[5%] py-[50px] text-center md:gap-[60px];
+  }
+  .about-point {
+    @apply max-w-[220px];
+  }
+  .about-point .icon {
+    @apply mx-auto mb-3.5 flex h-14 w-14 items-center justify-center rounded-full border border-gold/40 text-gold-light;
+    font-size: 1.3rem;
+  }
+  .about-point h4 {
+    @apply mb-1.5 text-gold-light;
+    font-size: 1.2rem;
+  }
+  .about-point p {
+    @apply text-white/65;
+    font-size: 0.82rem;
+  }
+
+  /* --- Services ---------------------------------------------------------- */
+  .services {
+    @apply bg-white;
+  }
+  .service-card {
+    @apply relative overflow-hidden bg-cream px-[30px] py-9;
+    transition: background 0.25s;
+  }
+  .service-card:hover {
+    @apply bg-cream-dark;
+  }
+  .service-card::before {
+    content: '';
+    @apply absolute left-0 top-0 z-[1] h-full w-[3px] origin-bottom scale-y-0 bg-gold;
+    transition: transform 0.3s;
+  }
+  .service-card:hover::before {
+    @apply scale-y-100;
+  }
+  .service-num {
+    @apply absolute right-5 top-4 font-serif font-bold leading-none text-gold/15;
+    font-size: 3rem;
+  }
+  .service-card h3 {
+    @apply mb-2 text-wine;
+    font-size: 1.35rem;
+  }
+  .service-price {
+    @apply mb-2.5 font-serif font-bold text-charcoal;
+    font-size: 1.5rem;
+  }
+  .service-card p {
+    @apply text-mid;
+    font-size: 0.83rem;
+    line-height: 1.6;
+  }
+  .services-notes {
+    @apply mt-8 rounded-r-sm border-l-[3px] border-gold bg-cream-dark px-7 py-6;
+  }
+  .services-notes p {
+    @apply mb-1.5 text-mid;
+    font-size: 0.85rem;
+  }
+  .services-notes p:last-child {
+    @apply mb-0;
+  }
+  .services-notes strong {
+    @apply text-wine;
+  }
+
+  /* --- Hair shop --------------------------------------------------------- */
+  .hair-sales {
+    @apply bg-cream;
+  }
+  .sales-card {
+    @apply rounded-sm border border-gold/15 bg-white px-[30px] py-9;
+    transition: box-shadow 0.25s, border-color 0.25s;
+  }
+  .sales-card:hover {
+    @apply border-gold;
+    box-shadow: 0 8px 32px rgba(107, 30, 59, 0.1);
+  }
+  .sales-icon {
+    @apply mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-cream-dark text-wine;
+    font-size: 1.35rem;
+  }
+  .sales-card h3 {
+    @apply mb-2.5 text-wine;
+    font-size: 1.4rem;
+  }
+  .sales-card p {
+    @apply mb-4 text-mid;
+    font-size: 0.85rem;
+  }
+  .sales-card li {
+    @apply flex items-center gap-2 border-b border-cream-dark py-[5px] text-charcoal;
+    font-size: 0.83rem;
+  }
+  .sales-card li::before {
+    content: '✦';
+    @apply text-gold;
+    font-size: 0.6rem;
+  }
+  .sales-card li:last-child {
+    border-bottom-width: 0;
+  }
+
+  /* --- Booking ----------------------------------------------------------- */
+  .booking {
+    @apply bg-wine-dark;
+  }
+  .booking .section-label { @apply text-gold-light; }
+  .booking .section-title { @apply text-white; }
+  .booking .section-sub   { @apply text-white/65; }
+  .booking .divider       { @apply bg-gold-light; }
+
+  .channel-btn {
+    @apply flex items-center gap-4 rounded-sm border border-white/[.12] bg-white/[.06] px-[22px] py-[18px] text-white;
+    font-size: 0.9rem;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .channel-btn:hover {
+    @apply border-gold bg-gold/15;
+  }
+  .channel-icon {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold-light;
+    font-size: 1.15rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .channel-btn:hover .channel-icon {
+    @apply bg-gold text-wine-dark;
+  }
+  .channel-info strong {
+    @apply block font-semibold;
+    font-size: 0.88rem;
+  }
+  .channel-info span {
+    @apply text-white/55;
+    font-size: 0.75rem;
+  }
+  .booking-notes {
+    @apply mt-6 text-white/40;
+    font-size: 0.78rem;
+    line-height: 1.7;
+  }
+
+  .booking-form h3 {
+    @apply mb-1.5 text-gold-light;
+    font-size: 1.5rem;
+  }
+  .form-group {
+    @apply flex flex-col gap-[5px];
+  }
+  .form-group label {
+    @apply font-semibold uppercase text-white/60;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+  .form-control {
+    @apply rounded-sm border border-white/15 bg-white/[.07] px-3.5 py-3 font-sans text-white outline-none;
+    font-size: 0.87rem;
+    transition: border-color 0.2s;
+  }
+  .form-control::placeholder {
+    @apply text-white/30;
+  }
+  .form-control:focus {
+    @apply border-gold;
+  }
+  .form-control option {
+    @apply bg-wine-dark;
+  }
+  textarea.form-control {
+    @apply min-h-[90px] resize-y;
+  }
+  .form-submit {
+    @apply cursor-pointer self-start rounded-sm border-0 bg-gold px-7 py-3.5 font-sans font-bold uppercase text-charcoal;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .form-submit:hover {
+    @apply bg-gold-light;
+    transform: translateY(-1px);
+  }
+  .form-submit:disabled {
+    @apply cursor-wait opacity-70;
+  }
+  .form-note {
+    @apply -mt-1 text-white/40;
+    font-size: 0.75rem;
+  }
+  .form-note.is-error {
+    color: #F3B6B6;
+  }
+  .form-success {
+    @apply rounded-sm border border-gold bg-gold/15 p-5 text-center text-gold-light;
+    font-size: 0.9rem;
+  }
+
+  /* --- Social strip ------------------------------------------------------ */
+  .social-strip {
+    @apply bg-cream-dark px-[5%] py-10 text-center;
+  }
+  .social-strip p {
+    @apply mb-4 text-mid;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+  }
+  .social-link {
+    @apply flex items-center gap-2 rounded-sm border border-gold/20 bg-white px-5 py-2.5 font-semibold text-charcoal;
+    font-size: 0.8rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .social-link:hover {
+    @apply border-wine text-wine;
+  }
+  .social-link i {
+    @apply text-wine;
+    font-size: 1rem;
+  }
+
+  /* --- Footer ------------------------------------------------------------ */
+  .beauty-footer {
+    @apply flex flex-col flex-wrap items-center justify-between gap-4 bg-charcoal px-[5%] py-10 text-center
+           md:flex-row md:text-left;
+  }
+  .footer-logo span:first-child {
+    @apply block font-serif font-bold text-white;
+    font-size: 1.2rem;
+  }
+  .footer-logo span:last-child {
+    @apply uppercase text-gold;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+  }
+  .footer-text {
+    @apply text-center text-white/35;
+    font-size: 0.75rem;
+  }
+  .footer-text a {
+    @apply text-white/45;
+  }
+  .footer-text a:hover {
+    @apply text-gold;
+  }
+
+  /* --- Photos: hero, cards and gallery ------------------------------------
+     Optional per record. Without a photo the markup and look are exactly
+     those of the original design; signed-in admins see a dashed slot to
+     upload into through live edit. */
+  .media-placeholder {
+    @apply flex h-full w-full items-center justify-center border border-dashed border-gold/50 bg-cream-dark
+           text-center font-semibold uppercase text-mid;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+  }
+
+  .hero-inner {
+    @apply relative grid w-full items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)];
+  }
+  .hero-photo {
+    @apply relative hidden md:block;
+    height: min(620px, calc(100vh - 260px));
+    min-height: 420px;
+  }
+  /* Offset gold frame behind the photo */
+  .hero-photo::before {
+    content: '';
+    @apply pointer-events-none absolute -right-3 -top-3 bottom-3 left-3 rounded-sm border border-gold/40;
+  }
+  .hero-photo img,
+  .hero-photo .media-placeholder {
+    @apply relative h-full w-full rounded-sm object-cover;
+  }
+  .hero-photo .media-placeholder {
+    @apply border-gold-light/40 bg-white/5 text-gold-light;
+  }
+
+  /* Photo across the top of a service or hair shop card, bleeding to its edges */
+  .card-media {
+    @apply relative -mx-[30px] -mt-9 mb-6 aspect-[4/3] overflow-hidden bg-cream-dark;
+  }
+  .card-media img {
+    @apply h-full w-full object-cover;
+    transition: transform 0.6s ease;
+  }
+  .service-card:hover .card-media img,
+  .sales-card:hover .card-media img {
+    transform: scale(1.04);
+  }
+  .has-media .card-body {
+    @apply relative;
+  }
+  .has-media .service-num {
+    top: -6px;
+    right: 0;
+  }
+  .sales-card.has-media {
+    @apply overflow-hidden;
+  }
+
+  .gallery {
+    @apply bg-white;
+  }
+  .gallery-item {
+    @apply relative overflow-hidden bg-cream-dark;
+  }
+  .gallery-photo {
+    @apply aspect-square;
+  }
+  .gallery-photo img {
+    @apply h-full w-full object-cover;
+    transition: transform 0.6s ease;
+  }
+  .gallery-item:hover .gallery-photo img {
+    transform: scale(1.05);
+  }
+  .gallery-caption {
+    @apply absolute inset-x-0 bottom-0 px-4 pb-3 pt-10 font-semibold uppercase text-white;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    background: linear-gradient(to top, rgba(74, 16, 40, 0.85), transparent);
+  }
+}

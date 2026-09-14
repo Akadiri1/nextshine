@@ -1,6 +1,6 @@
 <?php
 ob_start();
-// $level_check = ['MASTER',3,2,1];
+$level_check = ['MASTER',3,2,1];
 //session_start();
 
 $where['table_name'] = strtolower("panel_".$uri[2]);
@@ -13,7 +13,7 @@ $columnsearch = selectTableContent2($conn,'information_schema.columns',$column_n
 //used to load new style for new admin console code
 $stranger = true;
 // include 'includes/header.php';
-include APP_PATH."/demo_views/admin/include/link_include.php";
+include APP_PATH."/admin/includes/header.php";
 $error= [];
 if(array_key_exists('submit', $_POST)){
 

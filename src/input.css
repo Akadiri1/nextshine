@@ -1,0 +1,969 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   NextShine Cleaning design system
+
+   Components carry the visual vocabulary of the original design (buttons,
+   cards, form controls, section chrome), so the site looks exactly as it did
+   before the move to Tailwind. Layout, grids and responsive stacking are
+   written as utilities in the views.
+
+   Breakpoints (tailwind.config.js) mirror the original max-width queries:
+   base = up to 480px, xs = 481px and up, md = 769px and up, lg = 1025px and up.
+   ========================================================================== */
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  :root {
+    /* Brand colours as RGB channels. Defaults only: includes/theme.php
+       overrides them from settings_site_colors. */
+    --color-navy:       26 51 92;
+    --color-navy-dark:  17 31 58;
+    --color-teal:       0 135 138;
+    --color-teal-light: 0 180 183;
+    --color-teal-pale:  224 245 245;
+    --color-white:      255 255 255;
+    --color-off-white:  248 250 252;
+    --color-grey-light: 240 244 248;
+    --color-grey:       107 114 128;
+    --color-grey-dark:  55 65 81;
+    --color-ink:        26 26 46;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    @apply overflow-x-hidden bg-white font-sans leading-[1.6] text-ink;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+    line-height: 1.2;
+  }
+
+  /* Preflight makes form controls inherit the body line-height; the design
+     was built on the browser default. */
+  button, input, select, textarea {
+    line-height: normal;
+  }
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+@layer components {
+
+  /* --- Layout shell ------------------------------------------------------ */
+  .container {
+    @apply mx-auto w-full max-w-[1140px] px-4 xs:px-6;
+  }
+
+  .section {
+    @apply py-12 xs:py-[60px] md:py-[88px];
+  }
+
+  /* --- Section chrome ---------------------------------------------------- */
+  .section-header {
+    margin-bottom: 52px;
+  }
+
+  .section-label {
+    @apply mb-2.5 inline-block font-semibold uppercase text-teal;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+  }
+
+  .section-title {
+    @apply mb-4 font-display font-bold text-navy;
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+  @screen xs {
+    .section-title { font-size: clamp(1.75rem, 3vw, 2.5rem); }
+  }
+
+  .section-subtitle {
+    @apply max-w-[580px] text-grey;
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  /* Navy gradient sections (Why us, Contact) */
+  .section-dark {
+    @apply text-white;
+    background: linear-gradient(135deg, rgb(var(--color-navy)) 0%, #0f3460 100%);
+  }
+  .section-dark .section-label    { @apply text-teal-light; }
+  .section-dark .section-title    { @apply text-white; }
+  .section-dark .section-subtitle { @apply text-white/70; }
+
+  /* --- Buttons ----------------------------------------------------------- */
+  .btn {
+    @apply inline-flex cursor-pointer items-center gap-2 rounded-full border-2 border-transparent
+           px-7 py-3.5 font-display font-semibold;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+  }
+
+  .btn-primary {
+    @apply border-teal bg-teal text-white;
+  }
+  .btn-primary:hover {
+    @apply border-teal-light bg-teal-light;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 135, 138, 0.35);
+  }
+
+  /* White outline, for the navy and gradient backgrounds */
+  .btn-outline {
+    @apply bg-transparent text-white;
+    border-color: rgb(var(--color-white) / 0.6);
+  }
+  .btn-outline:hover {
+    @apply border-white bg-white/[.12];
+  }
+
+  /* Navy outline, for white backgrounds */
+  .btn-outline-navy,
+  .btn-outline-navy:hover {
+    @apply border-navy text-navy;
+  }
+
+  .btn-navy {
+    @apply border-navy bg-navy text-white;
+  }
+  .btn-navy:hover {
+    @apply bg-navy-dark shadow-md;
+    transform: translateY(-2px);
+  }
+
+  .btn-lg {
+    @apply w-full justify-center xs:w-auto;
+    padding: 17px 36px;
+    font-size: 1.05rem;
+  }
+
+  /* --- Navigation -------------------------------------------------------- */
+  .site-nav {
+    @apply fixed inset-x-0 top-0 z-[1000] py-5;
+    transition: all 0.25s ease;
+  }
+  .site-nav.is-scrolled {
+    @apply bg-white py-3 shadow-md;
+  }
+  .site-nav .container {
+    max-width: 1260px;
+  }
+
+  .nav-logo-img {
+    @apply block h-11 w-auto;
+    transition: all 0.25s ease;
+  }
+  .nav-logo-img-light                            { display: none; }
+  .site-nav.is-scrolled .nav-logo-img-dark       { display: none; }
+  .site-nav.is-scrolled .nav-logo-img-light      { display: block; }
+  .site-nav.is-scrolled .nav-logo-img            { height: 38px; }
+
+  .nav-link {
+    @apply font-medium text-white/[.85];
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+  }
+  .nav-link:hover                                { @apply text-white; }
+  .site-nav.is-scrolled .nav-link                { @apply text-grey-dark; }
+  .site-nav.is-scrolled .nav-link:hover          { @apply text-teal; }
+
+  .nav-phone {
+    @apply font-semibold text-white/90;
+    font-size: 0.88rem;
+    transition: all 0.25s ease;
+  }
+  .site-nav.is-scrolled .nav-phone               { @apply text-navy; }
+
+  /* Beauty is a separate business, so it is a button beside Get a Quote
+     rather than a page link. Gold is NextShine Beauty's accent colour. */
+  .nav-beauty {
+    @apply px-5 text-white;
+    border-color: rgb(196 151 58 / 0.8);
+  }
+  .nav-beauty i {
+    color: #E8C06A;
+    transition: color 0.25s ease;
+  }
+  .nav-beauty:hover,
+  .site-nav.is-scrolled .nav-beauty:hover {
+    @apply text-white;
+    border-color: #C4973A;
+    background: #C4973A;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(196, 151, 58, 0.35);
+  }
+  .nav-beauty:hover i,
+  .site-nav.is-scrolled .nav-beauty:hover i      { @apply text-white; }
+  .site-nav.is-scrolled .nav-beauty              { @apply text-navy; border-color: #C4973A; }
+  .site-nav.is-scrolled .nav-beauty i            { color: #C4973A; }
+
+  /* Tablets (769-1024px): tighter nav buttons so the page links still fit
+     beside Beauty and Get a Quote. */
+  @media (max-width: 1024px) {
+    .site-nav .btn {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.88rem;
+    }
+    .site-nav .nav-beauty {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  .hamburger span {
+    @apply block h-0.5 w-6 rounded-sm bg-white;
+    transition: all 0.25s ease;
+  }
+  .site-nav.is-scrolled .hamburger span          { @apply bg-navy; }
+
+  /* --- Mobile menu ------------------------------------------------------- */
+  .mobile-menu {
+    @apply fixed inset-0 z-[9999] hidden flex-col items-center justify-center gap-6 overflow-y-auto bg-navy p-10;
+  }
+  .mobile-menu.is-open {
+    @apply flex;
+  }
+  .mobile-menu a {
+    @apply font-display font-semibold text-white;
+    font-size: 1.3rem;
+    transition: all 0.25s ease;
+  }
+  .mobile-menu a:hover {
+    @apply text-teal-light;
+  }
+  .mobile-close {
+    @apply absolute right-6 top-6 z-10 cursor-pointer border-0 bg-transparent p-2 leading-none text-white;
+    font-size: 2rem;
+  }
+  .mobile-menu-divider {
+    @apply h-0.5 w-[60px] rounded-sm bg-white/15;
+  }
+  .mobile-menu-phone {
+    @apply mt-2 flex items-center gap-2;
+  }
+  .mobile-menu .mobile-beauty {
+    border-color: rgb(196 151 58 / 0.8);
+  }
+  .mobile-menu .mobile-beauty i {
+    color: #E8C06A;
+  }
+
+  /* --- Home hero --------------------------------------------------------- */
+  .hero {
+    @apply relative flex items-center overflow-hidden pb-10 pt-20 md:min-h-screen md:pb-0 md:pt-[100px];
+    background:
+      linear-gradient(135deg, rgba(26, 51, 92, 0.92) 0%, rgba(0, 135, 138, 0.80) 100%),
+      linear-gradient(160deg, rgb(var(--color-navy)) 0%, rgb(var(--color-teal)) 50%, rgb(var(--color-navy)) 100%);
+    background-size: cover;
+    background-position: center;
+  }
+  .hero::before {
+    content: '';
+    @apply absolute inset-x-0 h-20 bg-white;
+    bottom: -2px;
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+
+  .hero-badge {
+    @apply mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/[.12]
+           px-4 py-1.5 font-medium text-white/90 backdrop-blur-[8px];
+    font-size: 0.82rem;
+  }
+  .hero-badge-dot {
+    @apply h-2 w-2 rounded-full bg-[#4ade80];
+    animation: badge-pulse 2s infinite;
+  }
+
+  .hero-headline {
+    @apply mb-5 font-display font-extrabold text-white;
+    line-height: 1.1;
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
+  }
+  @screen xs {
+    .hero-headline { font-size: clamp(2rem, 8vw, 2.8rem); }
+  }
+  @screen md {
+    .hero-headline { font-size: clamp(2.4rem, 4.5vw, 3.6rem); }
+  }
+  .hero-headline span {
+    @apply text-teal-light;
+  }
+
+  .hero-desc {
+    @apply mb-9 max-w-[480px] text-white/[.82];
+    font-size: 1.08rem;
+    line-height: 1.75;
+  }
+
+  .hero-stat-num {
+    @apply font-display font-extrabold leading-none text-white;
+    font-size: 1.8rem;
+  }
+  .hero-stat-label {
+    @apply mt-1 font-medium text-white/[.65];
+    font-size: 0.78rem;
+  }
+
+  .hero-card {
+    @apply rounded-[20px] border border-white/[.18] bg-white/[.08] p-5 backdrop-blur-[16px] xs:p-6 md:p-8;
+  }
+
+  /* --- Trust strip ------------------------------------------------------- */
+  .trust-item {
+    @apply flex w-full items-center justify-center gap-2.5 border-b border-white/[.12] px-4 py-2.5
+           xs:w-auto xs:justify-start xs:border-b-0 xs:border-r md:px-7 md:py-3;
+  }
+  .trust-item:last-child {
+    border-right-width: 0;
+    border-bottom-width: 0;
+  }
+  .trust-icon {
+    @apply shrink-0 text-teal-light;
+    font-size: 1.3rem;
+  }
+  .trust-text {
+    @apply whitespace-nowrap font-semibold text-white/[.85];
+    font-size: 0.82rem;
+  }
+
+  /* --- Service cards ----------------------------------------------------- */
+  .service-card {
+    @apply cursor-pointer overflow-hidden rounded-[20px] bg-white shadow-sm;
+    transition: all 0.25s ease;
+  }
+  .service-card:hover {
+    @apply shadow-lg;
+    transform: translateY(-6px);
+  }
+  .service-card-img {
+    @apply relative flex h-[180px] items-center justify-center overflow-hidden;
+    font-size: 3.5rem;
+  }
+  .service-card-img img {
+    @apply absolute inset-0 h-full w-full object-cover;
+  }
+  .service-card-badge {
+    @apply absolute right-3.5 top-3.5 rounded-full border border-white/30 bg-white/[.18] px-3 py-1 font-bold text-white;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+  .service-card-title {
+    @apply mb-2 font-display font-bold text-navy;
+    font-size: 1.05rem;
+  }
+  .service-card-desc {
+    @apply mb-4 text-grey;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .service-price-tag {
+    @apply font-display font-bold text-teal;
+    font-size: 1.05rem;
+  }
+  .service-card-link {
+    @apply flex items-center gap-1 font-semibold text-teal;
+    font-size: 0.82rem;
+    transition: all 0.25s ease;
+  }
+  .service-card-link:hover {
+    @apply gap-2;
+  }
+
+  /* --- How it works ------------------------------------------------------ */
+  .steps-line::before {
+    content: '';
+    @apply absolute left-[10%] right-[10%] top-7 z-0 hidden h-0.5 lg:block;
+    background: linear-gradient(90deg, rgb(var(--color-teal-pale)), rgb(var(--color-teal)), rgb(var(--color-teal-pale)));
+  }
+  .step-num {
+    @apply mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-teal font-display font-extrabold text-white;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 16px rgba(0, 135, 138, 0.35);
+  }
+  .step-title {
+    @apply mb-2 font-display font-bold text-navy;
+    font-size: 1rem;
+  }
+  .step-desc {
+    @apply text-grey;
+    font-size: 0.87rem;
+    line-height: 1.6;
+  }
+
+  /* --- Pricing ----------------------------------------------------------- */
+  .pricing-tabs {
+    @apply mb-10 flex w-full rounded-full bg-grey-light p-1 md:w-fit;
+  }
+  .pricing-tab {
+    @apply flex-1 cursor-pointer rounded-full border-0 bg-transparent px-3.5 py-2.5 text-center
+           font-display font-semibold text-grey md:flex-initial md:px-7;
+    font-size: 0.8rem;
+    transition: all 0.25s ease;
+  }
+  @screen md {
+    .pricing-tab { font-size: 0.88rem; }
+  }
+  .pricing-tab.is-active {
+    @apply bg-white text-navy shadow-sm;
+  }
+  .pricing-panel           { display: none; }
+  .pricing-panel.is-active { display: block; }
+
+  .eot-table {
+    @apply overflow-hidden rounded-[20px] bg-white shadow-md;
+  }
+  .eot-grid {
+    @apply grid gap-3 px-6;
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+  @screen md {
+    .eot-grid { grid-template-columns: 2fr 1.2fr 1.2fr 1.2fr; }
+  }
+  .eot-table-header {
+    @apply bg-navy py-4;
+  }
+  .eot-th {
+    @apply font-display font-bold uppercase text-white/80;
+    font-size: 0.78rem;
+    letter-spacing: 0.07em;
+  }
+  .eot-row {
+    @apply items-center border-b border-grey-light py-[18px];
+    transition: all 0.25s ease;
+  }
+  .eot-row:last-child {
+    border-bottom-width: 0;
+  }
+  .eot-row:hover {
+    @apply bg-off-white;
+  }
+  .eot-property {
+    @apply font-semibold text-navy;
+    font-size: 0.95rem;
+  }
+  .eot-detail {
+    @apply mt-0.5 text-grey;
+    font-size: 0.82rem;
+  }
+  .eot-time {
+    @apply text-grey-dark;
+    font-size: 0.9rem;
+  }
+  .eot-price {
+    @apply font-display font-extrabold text-teal;
+    font-size: 1.1rem;
+  }
+  .eot-market {
+    @apply text-grey;
+    font-size: 0.82rem;
+  }
+  .eot-note {
+    @apply flex items-center gap-2 bg-teal-pale px-6 py-4 font-medium text-teal;
+    font-size: 0.83rem;
+  }
+
+  .hourly-card {
+    @apply relative rounded-[20px] border-2 border-transparent bg-white px-6 py-8 text-center shadow-md;
+    transition: all 0.25s ease;
+  }
+  .hourly-card:hover,
+  .hourly-card.featured {
+    @apply border-teal shadow-lg;
+    transform: translateY(-4px);
+  }
+  .hourly-card.featured {
+    @apply overflow-hidden;
+  }
+  .hourly-badge {
+    @apply absolute inset-x-0 top-0 bg-teal p-1.5 font-bold uppercase text-white;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+  .hourly-icon {
+    @apply mb-4;
+    font-size: 2.5rem;
+  }
+  .hourly-title {
+    @apply mb-2 font-display font-bold text-navy;
+    font-size: 1.05rem;
+  }
+  .hourly-price {
+    @apply font-display font-extrabold leading-none text-teal;
+    font-size: 2.8rem;
+  }
+  /* Undo Preflight's sup offset; the pound sign sits flush with the cap line. */
+  .hourly-price sup {
+    position: static;
+    font-size: 1.2rem;
+    line-height: inherit;
+    vertical-align: top;
+  }
+  .hourly-per {
+    @apply text-grey;
+    font-size: 0.85rem;
+  }
+  .hourly-min {
+    @apply mb-5 text-grey;
+    font-size: 0.82rem;
+  }
+  .hourly-feature {
+    @apply flex items-center gap-2.5 py-[5px] text-grey-dark;
+    font-size: 0.88rem;
+  }
+  .hourly-feature::before {
+    content: '✓';
+    @apply shrink-0 font-bold text-teal;
+  }
+
+  /* --- Why us ------------------------------------------------------------ */
+  .why-card {
+    @apply rounded-[20px] border border-white/10 bg-white/[.06] px-7 py-8;
+    transition: all 0.25s ease;
+  }
+  .why-card:hover {
+    @apply border-teal-light bg-white/10;
+    transform: translateY(-4px);
+  }
+  .why-icon {
+    @apply mb-[18px] flex h-[52px] w-[52px] items-center justify-center rounded-xl;
+    font-size: 1.5rem;
+    background: rgba(0, 180, 183, 0.15);
+  }
+  .why-title {
+    @apply mb-2.5 font-display font-bold text-white;
+    font-size: 1rem;
+  }
+  .why-desc {
+    @apply text-white/[.65];
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+
+  /* --- About ------------------------------------------------------------- */
+  .about-img {
+    @apply relative flex h-[260px] flex-col items-center justify-center gap-4 rounded-[20px] xs:h-[320px] md:h-[460px];
+    background: linear-gradient(160deg, rgb(var(--color-teal)) 0%, rgb(var(--color-navy)) 100%);
+  }
+  .about-img img {
+    @apply h-full w-full rounded-[20px] object-cover;
+  }
+  .about-floatcard {
+    @apply absolute -bottom-5 -right-5 flex items-center gap-3.5 rounded-xl bg-white px-[22px] py-[18px] shadow-lg;
+  }
+  .about-floatcard-icon {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-teal-pale;
+    font-size: 1.4rem;
+  }
+  .about-floatcard-num {
+    @apply font-display font-extrabold leading-none text-navy;
+    font-size: 1.5rem;
+  }
+  .about-floatcard-label {
+    @apply text-grey;
+    font-size: 0.75rem;
+  }
+  .about-quote {
+    @apply my-7 rounded-r-xl border-l-4 border-teal bg-teal-pale px-6 py-5 italic text-grey-dark;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .about-bullet {
+    @apply flex items-start gap-3 text-grey-dark;
+    font-size: 0.9rem;
+  }
+  .about-bullet-check {
+    @apply mt-px flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-teal font-extrabold text-white;
+    font-size: 0.7rem;
+  }
+
+  /* --- Coverage ---------------------------------------------------------- */
+  .coverage-map {
+    @apply relative h-[260px] overflow-hidden rounded-[20px] bg-grey-light shadow-md xs:h-[420px];
+  }
+  .coverage-map iframe {
+    @apply block h-full w-full rounded-[20px] border-0;
+  }
+  .coverage-group-label {
+    @apply mb-3 font-bold uppercase text-navy;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+  }
+  .area-tag {
+    @apply rounded-full border border-grey-light bg-white px-4 py-1.5 font-medium text-grey-dark;
+    font-size: 0.85rem;
+    transition: all 0.25s ease;
+  }
+  .area-tag:hover,
+  .area-tag.primary {
+    @apply border-navy bg-navy text-white;
+  }
+
+  /* --- Reviews ----------------------------------------------------------- */
+  .review-card {
+    @apply rounded-[20px] border border-transparent bg-off-white p-7;
+    transition: all 0.25s ease;
+  }
+  .review-card:hover {
+    @apply border-teal-pale bg-white shadow-md;
+    transform: translateY(-3px);
+  }
+  .review-star {
+    color: #f59e0b;
+    font-size: 1rem;
+  }
+  .review-text {
+    @apply mb-5 italic text-grey-dark;
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .review-avatar {
+    @apply flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full font-display font-bold text-white;
+    font-size: 0.9rem;
+  }
+  .review-name {
+    @apply font-semibold text-navy;
+    font-size: 0.9rem;
+  }
+  .review-role {
+    @apply text-grey;
+    font-size: 0.78rem;
+  }
+  .review-source {
+    @apply mt-4 font-medium uppercase text-grey;
+    font-size: 0.72rem;
+    letter-spacing: 0.07em;
+  }
+  .google-rating {
+    @apply inline-flex items-center gap-2.5 rounded-xl border border-grey-light bg-white px-6 py-3.5 shadow-sm;
+  }
+  .google-g {
+    @apply flex h-8 w-8 items-center justify-center rounded-full font-extrabold text-white;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, #4285F4, #DB4437, #F4B400, #0F9D58);
+  }
+  .google-score {
+    @apply font-display font-extrabold text-navy;
+    font-size: 1.2rem;
+  }
+  .google-text {
+    @apply text-grey;
+    font-size: 0.82rem;
+  }
+
+  /* --- Contact ----------------------------------------------------------- */
+  .contact-icon {
+    @apply flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-xl border border-white/[.12] bg-white/[.08];
+    font-size: 1.2rem;
+  }
+  .contact-item-label {
+    @apply font-semibold uppercase text-white/50;
+    font-size: 0.75rem;
+    letter-spacing: 0.07em;
+  }
+  .contact-item-value {
+    @apply mt-0.5 font-semibold text-white;
+    font-size: 0.95rem;
+  }
+  .contact-form-wrap {
+    @apply rounded-[20px] border border-white/[.12] bg-white/[.06] p-6 backdrop-blur-[16px] md:p-9;
+  }
+  .contact-form-title {
+    @apply mb-6 font-display font-bold text-white;
+    font-size: 1.2rem;
+  }
+
+  /* --- Form fields (on navy) --------------------------------------------- */
+  .field {
+    @apply flex flex-col gap-1.5;
+  }
+  .field-label {
+    @apply font-semibold uppercase text-white/[.65];
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  .field-control {
+    @apply w-full rounded-xl border border-white/15 bg-white/[.08] px-4 py-3 font-sans text-white outline-none;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+  }
+  .field-control-sm {
+    @apply px-3.5 py-2.5;
+  }
+  .field-control::placeholder {
+    @apply text-white/[.35];
+  }
+  .field-control:focus {
+    @apply border-teal-light bg-white/[.12];
+  }
+  .field-control option {
+    @apply bg-navy text-white;
+  }
+
+  /* --- Page hero (inner pages) ------------------------------------------- */
+  .page-hero {
+    @apply relative overflow-hidden pb-[70px] pt-[140px] text-center text-white;
+    background: linear-gradient(135deg, rgb(var(--color-navy)) 0%, rgb(var(--color-teal)) 100%);
+  }
+  .page-hero::before {
+    content: '';
+    @apply absolute inset-x-0 h-[50px] bg-white;
+    bottom: -2px;
+    clip-path: ellipse(60% 100% at 50% 100%);
+  }
+  .page-hero-title {
+    @apply mb-3 font-display font-extrabold;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+  .page-hero-subtitle {
+    @apply mx-auto max-w-[640px] text-white/[.82];
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  /* --- Service detail ---------------------------------------------------- */
+  .service-hero {
+    @apply relative overflow-hidden pb-[60px] pt-[90px] md:pb-20 md:pt-[120px];
+  }
+  .service-hero::before {
+    content: '';
+    @apply absolute inset-x-0 h-[60px] bg-white;
+    bottom: -2px;
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .service-hero-badge {
+    @apply mb-4 inline-block rounded-full border border-white/30 bg-white/15 px-4 py-1 font-bold uppercase text-white;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+  .service-hero-title {
+    @apply mb-4 font-display font-extrabold text-white;
+    line-height: 1.1;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+  .service-hero-intro {
+    @apply mb-6 max-w-[520px] text-white/[.82];
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+  .service-hero-meta-item {
+    @apply flex items-center gap-2 font-medium text-white/90;
+    font-size: 0.9rem;
+  }
+  .service-hero-meta-item i {
+    @apply text-teal-light;
+  }
+  .service-hero-media {
+    @apply flex h-[240px] items-center justify-center overflow-hidden rounded-[20px] border border-white/[.12] bg-white/[.06] md:h-[360px];
+  }
+  .service-hero-media img {
+    @apply h-full w-full object-cover;
+  }
+  .service-hero-icon {
+    @apply text-white/20;
+    font-size: 5rem;
+  }
+
+  .service-detail-heading {
+    @apply mb-4 font-display font-bold text-navy;
+    font-size: 1.4rem;
+  }
+  .service-detail-text {
+    @apply text-grey-dark;
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  .service-checklist li {
+    @apply flex items-start gap-2.5 text-grey-dark;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .service-checklist li i {
+    @apply mt-[3px] shrink-0 text-teal;
+  }
+
+  .service-quote-card {
+    @apply rounded-[20px] bg-navy p-7 text-white;
+  }
+  .service-quote-card h3 {
+    @apply mb-2 flex items-center gap-2 font-display font-bold;
+    font-size: 1.1rem;
+  }
+  .service-quote-card p {
+    @apply mb-5 text-white/[.65];
+    font-size: 0.85rem;
+  }
+
+  .service-info-card {
+    @apply rounded-[20px] bg-off-white p-6 text-center;
+  }
+  .service-info-card h4 {
+    @apply mb-1.5 font-display font-bold text-navy;
+    font-size: 1rem;
+  }
+  .service-info-card p {
+    @apply text-grey;
+    font-size: 0.85rem;
+  }
+  .service-phone {
+    @apply mt-2 block font-display font-extrabold text-teal;
+    font-size: 1.3rem;
+  }
+
+  /* --- Footer ------------------------------------------------------------ */
+  .footer-brand-desc {
+    @apply mb-6 mt-4 text-white/[.55];
+    font-size: 0.87rem;
+    line-height: 1.7;
+  }
+  .social-btn {
+    @apply flex h-9 w-9 items-center justify-center rounded-lg bg-white/[.07] text-white/[.65];
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+  }
+  .social-btn:hover {
+    @apply bg-teal text-white;
+  }
+  .footer-col-title {
+    @apply mb-4 font-display font-bold text-white;
+    font-size: 0.9rem;
+  }
+  .footer-links a,
+  .footer-links li {
+    @apply text-white/[.55];
+    font-size: 0.85rem;
+    transition: all 0.25s ease;
+  }
+  .footer-links a:hover {
+    @apply text-teal-light;
+  }
+  .footer-legal a {
+    @apply text-white/[.45];
+    transition: all 0.25s ease;
+  }
+  .footer-legal a:hover {
+    @apply text-teal-light;
+  }
+
+  /* --- Floating actions -------------------------------------------------- */
+  .float-cta {
+    @apply pointer-events-none fixed bottom-4 right-4 z-[900] flex flex-row items-center gap-2.5 opacity-0
+           md:bottom-7 md:right-7 md:flex-col md:items-end;
+    transition: opacity 0.4s;
+  }
+  .float-cta.is-visible {
+    @apply pointer-events-auto opacity-100;
+  }
+  .float-btn {
+    @apply flex cursor-pointer items-center gap-2.5 rounded-full px-4 py-2.5 font-display font-semibold shadow-lg
+           md:px-5 md:py-[13px];
+    font-size: 0.8rem;
+    transition: all 0.25s ease;
+  }
+  @screen md {
+    .float-btn { font-size: 0.88rem; }
+  }
+  .float-btn-primary {
+    @apply bg-teal text-white;
+  }
+  .float-btn-primary:hover {
+    @apply bg-teal-light;
+    transform: scale(1.04);
+  }
+  .float-btn-call {
+    @apply bg-white text-navy;
+  }
+  .float-btn-call:hover {
+    @apply bg-off-white;
+    transform: scale(1.04);
+  }
+
+  .whatsapp-bubble {
+    @apply fixed bottom-4 left-4 z-[900] flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#25D366] text-white
+           md:bottom-7 md:left-7 md:h-[58px] md:w-[58px];
+    font-size: 1.5rem;
+    box-shadow: 0 6px 24px rgba(37, 211, 102, 0.45);
+    transition: all 0.25s ease;
+    animation: wa-pulse 2.4s infinite;
+  }
+  @screen md {
+    .whatsapp-bubble { font-size: 1.75rem; }
+  }
+  .whatsapp-bubble:hover {
+    background: #1DA851;
+    transform: scale(1.08);
+    animation: none;
+  }
+  .whatsapp-bubble-tooltip {
+    @apply pointer-events-none absolute left-[72px] hidden whitespace-nowrap rounded-lg bg-navy px-3.5 py-2
+           font-display font-semibold text-white opacity-0 shadow-md md:block;
+    font-size: 0.82rem;
+    transform: translateX(-8px);
+    transition: all 0.25s ease;
+  }
+  .whatsapp-bubble-tooltip::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-right-color: rgb(var(--color-navy));
+  }
+  .whatsapp-bubble:hover .whatsapp-bubble-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+@layer utilities {
+
+  /* Scroll reveal, driven by IntersectionObserver in app.js. Scoped to html.js
+     (set by an inline script in the head), so with scripting unavailable the
+     content simply stays visible. */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .js .reveal.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .hero-badge-dot,
+    .whatsapp-bubble {
+      animation: none;
+    }
+  }
+}
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%      { opacity: 0.6; transform: scale(1.3); }
+}
+
+@keyframes wa-pulse {
+  0%, 100% { box-shadow: 0 6px 24px rgba(37, 211, 102, 0.45), 0 0 0 0 rgba(37, 211, 102, 0.5); }
+  50%      { box-shadow: 0 6px 24px rgba(37, 211, 102, 0.45), 0 0 0 14px rgba(37, 211, 102, 0); }
+}

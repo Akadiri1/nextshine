@@ -1,6 +1,6 @@
 <?php
 $page_title = "Home";
-include("includes/header.php");
+include APP_PATH . "/views/includes/header.php";
 ?>
 
 <div class="template-home-wrapper">
@@ -14,7 +14,7 @@ include("includes/header.php");
 ═══════════════════════════════════════════════════ -->
 <?php/*##cbcode_10001o##*/?>
 <div data-cbcodesection="cbcode_10001">
-  <?php include("includes/sections/hero.php"); ?>
+  <?php include APP_PATH . "/views/includes/sections/hero.php"; ?>
 </div>
 <?php/*##cbcode_10001c##*/?>
 
@@ -24,7 +24,7 @@ include("includes/header.php");
 ═══════════════════════════════════════════════════ -->
 <?php/*##cbcode_10002o##*/?>
 <div data-cbcodesection="cbcode_10002">
-  <?php include("includes/sections/trust.php"); ?>
+  <?php include APP_PATH . "/views/includes/sections/trust.php"; ?>
 </div>
 <?php/*##cbcode_10002c##*/?>
 
@@ -34,7 +34,7 @@ include("includes/header.php");
 ═══════════════════════════════════════════════════ -->
 <?php/*##cbcode_10006o##*/?>
 <div data-cbcodesection="cbcode_10006">
-  <?php include("includes/sections/why.php"); ?>
+  <?php include APP_PATH . "/views/includes/sections/why.php"; ?>
 </div>
 <?php/*##cbcode_10006c##*/?>
 
@@ -44,7 +44,7 @@ include("includes/header.php");
 ═══════════════════════════════════════════════════ -->
 <?php/*##cbcode_10007o##*/?>
 <div data-cbcodesection="cbcode_10007">
-  <?php include("includes/sections/about.php"); ?>
+  <?php include APP_PATH . "/views/includes/sections/about.php"; ?>
 </div>
 <?php/*##cbcode_10007c##*/?>
 
@@ -54,7 +54,7 @@ include("includes/header.php");
 ═══════════════════════════════════════════════════ -->
 <?php/*##cbcode_10010o##*/?>
 <div data-cbcodesection="cbcode_10010">
-  <?php include("includes/sections/contact.php"); ?>
+  <?php include APP_PATH . "/views/includes/sections/contact.php"; ?>
 </div>
 <?php/*##cbcode_10010c##*/?>
 
@@ -64,4 +64,4 @@ include("includes/header.php");
 </div>
 </div>
 
-<?php include("includes/footer.php"); ?>
+<?php include APP_PATH . "/views/includes/footer.php"; ?>

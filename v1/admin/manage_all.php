@@ -1,7 +1,7 @@
 <?php
 ob_start();
 //session_start();
-// $level_check = ['MASTER',3,2,1];
+$level_check = ['MASTER',3,2,1];
 // SELECT table_name FROM information_schema.tables;
 // SELECT table_name FROM information_schema.tables WHERE ;
 $where['table_name'] = strtolower("panel_".$uri[2]);
@@ -12,7 +12,7 @@ $columns = selectTableContent($conn,'information_schema.columns',$column_name,$w
 
 //used to load new style for new admin console code
 $stranger = true;
-include APP_PATH."/demo_views/admin/include/link_include.php";
+include APP_PATH."/admin/includes/header.php";
 
 // $arr['name'] = "Book";
 

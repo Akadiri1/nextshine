@@ -1,10 +1,9 @@
 <?php
 $page_title = "Reviews";
-$metaDescription = "Customer reviews for NextShine Cleaning — reliable, professional cleaning services in Edinburgh. Read what our clients say.";
-include("includes/header.php");
-
-$page_hero_title = "What Our Clients Say";
-$page_hero_subtitle = "Real feedback from Edinburgh landlords, letting agents, and businesses that trust NextShine Cleaning.";
+$page_meta  = "Customer reviews for NextShine Cleaning — reliable, professional cleaning services in Edinburgh. Read what our clients say.";
+$hero_title = "What Our Clients Say";
+$hero_text  = "Real feedback from Edinburgh landlords, letting agents, and businesses that trust NextShine Cleaning.";
+include APP_PATH . "/views/includes/header.php";
 ?>
 
 <div class="template-page-wrapper">
@@ -13,19 +12,19 @@ $page_hero_subtitle = "Real feedback from Edinburgh landlords, letting agents, a
 
 <?php/*##cbcode_25001o##*/?>
 <div data-cbcodesection="cbcode_25001">
-  <?php include("includes/sections/page_hero.php"); ?>
+  <?php include APP_PATH . "/views/includes/partials/page-hero.php"; ?>
 </div>
 <?php/*##cbcode_25001c##*/?>
 
 <?php/*##cbcode_25002o##*/?>
 <div data-cbcodesection="cbcode_25002">
-  <?php include("includes/sections/testimonials.php"); ?>
+  <?php include APP_PATH . "/views/includes/sections/testimonials.php"; ?>
 </div>
 <?php/*##cbcode_25002c##*/?>
 
 <?php/*##cbcode_25003o##*/?>
 <div data-cbcodesection="cbcode_25003">
-  <?php include("includes/sections/contact.php"); ?>
+  <?php include APP_PATH . "/views/includes/sections/contact.php"; ?>
 </div>
 <?php/*##cbcode_25003c##*/?>
 
@@ -33,4 +32,4 @@ $page_hero_subtitle = "Real feedback from Edinburgh landlords, letting agents, a
 </div>
 </div>
 
-<?php include("includes/footer.php"); ?>
+<?php include APP_PATH . "/views/includes/footer.php"; ?>

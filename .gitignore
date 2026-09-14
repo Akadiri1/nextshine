@@ -1,9 +1,39 @@
-Vagrantfile
-.vagrant/
-.env/
-ngrok.exe
-www/phpmyadmin
-israelkodak.box
-v1/payment/
+# Environment / secrets
+.env/config.php
+
+# Logs
+log/*.log
+*.log
+
+# Uploads (user content). Files committed before this rule stay tracked.
+www/uploads/*
+!www/uploads/.gitkeep
+
+# Dependencies
+vendor/
+node_modules/
+package-lock.json
+
+# Database dumps. The schema lives in database/migrations.
+*.sql
+
+# Admin dashboard theme and ADMC demo images, provisioned per server
 www/da/
 www/mkp-images/
+
+# OS / editor
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
+
+# Local tooling
+Vagrantfile
+.vagrant/
+ngrok.exe
+israelkodak.box
+www/phpmyadmin
+v1/payment/
+
+# Client correspondence with personal details
+beautify.md

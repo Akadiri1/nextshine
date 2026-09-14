@@ -1,0 +1,18 @@
+<?php
+/**
+ * Migration Generated on {{DATE}}
+ */
+
+return new class {
+    public function up($migration) {
+        $migration->table('{{TABLE_NAME}}', function ($table) {
+            $table->id();
+            // $table->string('name');
+            $table->timestamps();
+        });
+    }
+
+    public function down($migration) {
+        $migration->dropTable('{{TABLE_NAME}}');
+    }
+};

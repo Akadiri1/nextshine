@@ -1,0 +1,119 @@
+#!/usr/bin/env php
+<?php
+require_once __DIR__ . '/framework/Autoloader.php';
+require_once __DIR__ . '/.env/config.php';
+$DB_HOST = getenv('DB_HOST') ?: 'localhost';
+$DB_USER = getenv('DB_USER') ?: 'root';
+$DB_PASSWORD = getenv('DB_PASSWORD') ?: '';
+$DB_NAME = getenv('DB_NAME') ?: 'nextshine';
+
+if(empty($DB_HOST)){
+    $DB_HOST = 'localhost';
+}
+
+// --- CONFIGURATION ---
+$config = ['host' => $DB_HOST, 'db' => $DB_NAME, 'user' => $DB_USER, 'pass' => $DB_PASSWORD];
+// ---------------------
+
+
+$action = $argv[1] ?? 'help';
+
+// Only the commands that touch the database need a connection, so `mck help`
+// still works when MySQL is down.
+$needsDatabase = !in_array($action, ['help', 'migration:create', 'seeder:create'], true);
+$pdo = null;
+
+if ($needsDatabase) {
+    try {
+        $pdo = new PDO("mysql:host={$config['host']};dbname={$config['db']}", $config['user'], $config['pass'], [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+    } catch (Exception $e) {
+        die("Connection failed ({$config['user']}@{$config['host']}/{$config['db']}): " . $e->getMessage() . PHP_EOL);
+    }
+}
+
+switch ($action) {
+    case 'migrate':
+        (new App\Migrator\Migrator($pdo))->run();
+        break;
+    case 'migrate:rollback':
+        (new App\Migrator\Migrator($pdo))->rollback();
+        break;
+    case 'migrate:fresh':
+        (new App\Migrator\Migrator($pdo))->fresh();
+        break;
+    case 'migration:create':
+        $name = $argv[2] ?? null;
+        if (!$name) {
+            die("Error: Please provide a migration name (e.g., create_users_table)\n");
+        }
+
+        $stubPath = __DIR__ . '/framework/src/stubs/migration.stub';
+        $migrationPath = __DIR__ . '/database/migrations/';
+        
+        if (!file_exists($stubPath)) {
+            die("Error: Stub file not found at $stubPath\n");
+        }
+
+        // Create directory if it doesn't exist
+        if (!is_dir($migrationPath)) {
+            mkdir($migrationPath, 0755, true);
+        }
+
+        $timestamp = date('Y_m_d_His');
+        $fileName = "{$timestamp}_{$name}.php";
+        $targetFile = $migrationPath . $fileName;
+
+        // Simple logic to guess table name from migration name
+        // e.g., "create_users_table" -> "users"
+        $tableName = str_replace(['create_', '_table'], '', $name);
+
+        $content = file_get_contents($stubPath);
+        $content = str_replace(['{{TABLE_NAME}}', '{{DATE}}'], [$tableName, date('Y-m-d H:i:s')], $content);
+
+        if (file_put_contents($targetFile, $content)) {
+            echo "Created Migration: $fileName\n";
+        } else {
+            echo "Error: Could not write migration file.\n";
+        }
+        break;
+    // Inside mck switch statement
+    case 'seed':
+        $specific = $argv[2] ?? null;
+        if ($specific) {
+            echo "Seeding: $specific...\n";
+        } else {
+            echo "Seeding all data...\n";
+        }
+        App\Migrator\Seeder::runAll($pdo, $specific);
+        break;
+    case 'seeder:create':
+        $name = $argv[2] ?? die("Name required\n");
+        $stub = str_replace(['{{CLASS_NAME}}', '{{TABLE_NAME}}'], [$name, strtolower(str_replace('Seeder', '', $name))], file_get_contents(__DIR__.'/framework/src/stubs/seeder.stub'));
+        file_put_contents(__DIR__."/database/seeds/$name.php", $stub);
+        echo "Created seeder.\n";
+        break;
+    case 'init':
+        App\Migrator\Initializer::run($pdo);
+        break;
+    default:
+        echo "McKodev Framework CLI\n";
+        echo "--------------------------\n";
+        echo "Usage: php mck [command] [arguments]\n\n";
+        
+        echo "Migration Commands:\n";
+        echo "  migrate            Run all pending migrations\n";
+        echo "  migrate:rollback   Rollback the last batch of migrations\n";
+        echo "  migrate:fresh      Drop all tables and re-run all migrations\n";
+        echo "  migration:create   Create a new migration file (e.g., migration:create create_users_table)\n\n";
+        
+        echo "Seeding Commands:\n";
+        echo "  seed               Run all seeders or a specific one (e.g., seed UserSeeder)\n";
+        echo "  seeder:create      Create a new seeder file (e.g., seeder:create UserSeeder)\n\n";
+        
+        echo "System Commands:\n";
+        echo "  init               Initialize project with custom tables and mandatory data\n";
+        echo "  help               Display this help message\n";
+        break;
+}

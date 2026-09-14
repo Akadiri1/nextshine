@@ -1,0 +1,35 @@
+<?php
+use App\Migrator\Seeder;
+
+class {{CLASS_NAME}} extends Seeder {
+    /**
+     * Run the database seeds.
+     */
+    public function run() {
+        /**
+         * Option 1: Standard Insert
+         * Best for fresh tables where you don't care about duplicates.
+         */
+        $this->insert('{{TABLE_NAME}}', [
+            'name' => 'Default Admin',
+            'email' => 'admin@example.com',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        /**
+         * Option 2: Industry Standard Upsert
+         * Best for maintaining data. If the record exists, it updates; 
+         * otherwise, it inserts.
+         */
+        $data = [
+            ['name' => 'Afeez Bello', 'email' => 'afeez.bello@mckodev.com.ng'],
+            ['name' => 'Demo User', 'email' => 'demo@domain.com'],
+        ];
+
+        foreach ($data as $row) {
+            // Uses 'email' as the unique key to check for duplicates
+            $this->upsert('{{TABLE_NAME}}', $row, 'email'); 
+        }
+    }
+}

@@ -454,7 +454,9 @@ function compressImage2($files, $name, $quality, $upDIR)
 function selectTableContent2($dbconn, $table, $column, $columnWhere)
 {
   $vall = formatWhere($columnWhere);
-  $column = implode(',', $column);
+  // Alias each column to the name asked for: MySQL 8+ returns information_schema
+  // columns in upper case (TABLE_NAME), but callers read $row['table_name'].
+  $column = implode(',', array_map(function ($c) { return "$c AS `$c`"; }, $column));
   try {
 
     // $what = getVal($parameters);
@@ -639,7 +641,9 @@ function selectContentAsc($dbconn, $table, $columnWhere, $order, $limit)
 function selectTableContent($dbconn, $table, $column, $columnWhere)
 {
   $vall = formatWhere($columnWhere);
-  $column = implode(',', $column);
+  // Alias each column to the name asked for: MySQL 8+ returns information_schema
+  // columns in upper case (TABLE_NAME), but callers read $row['table_name'].
+  $column = implode(',', array_map(function ($c) { return "$c AS `$c`"; }, $column));
   try {
 
     // $what = getVal($parameters);

@@ -9,24 +9,15 @@ $query_string = "";
 if(count(explode("?",$uri[1])) > 1){
 $uri[1] = explode("?",$uri[1])[0]."?".$query_string;
 }
+// var_dump($uri); die;
 
 switch ($uri[1]) {
   case "mck_ext?".$query_string:
   include APP_PATH."/admc_ext/mck_ext.php";
-    exit();
+    die();
   break;
-  case "create-invoice":
-  include APP_PATH."/admc_ext/create-invoice.php";
-    exit();
-  break;
-  case "manage-invoice":
-  include APP_PATH."/admc_ext/manage-invoice.php";
-    exit();
-  break;
-  case "update":
-  include APP_PATH."/admc_ext/update.php";
-    exit();
-  break;
+
+
 
 
 }

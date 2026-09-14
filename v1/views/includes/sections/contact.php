@@ -1,103 +1,101 @@
 <?php
 $contactHeader = selectContent($conn, "settings_home_contact", ["visibility" => "show"])[0];
 
-// Dynamic form selections (admin-editable)
-$formServiceOptions = selectContentAsc($conn, "selection_form_services", ["visibility" => "show"], "input_order", 50);
+// Dropdown options are admin-editable selection_ tables.
+$formServiceOptions  = selectContentAsc($conn, "selection_form_services", ["visibility" => "show"], "input_order", 50);
 $formPropertyOptions = selectContentAsc($conn, "selection_form_property_sizes", ["visibility" => "show"], "input_order", 50);
+
+$contactItems = [
+    ['icon' => 'fa-solid fa-phone',        'label' => 'input_phone_label',    'value' => htmlspecialchars($site_phone), 'href' => 'tel:' . htmlspecialchars($site_phone)],
+    ['icon' => 'fa-solid fa-envelope',     'label' => 'input_email_label',    'value' => htmlspecialchars($site_email), 'href' => 'mailto:' . htmlspecialchars($site_email)],
+    ['icon' => 'fa-solid fa-clock',        'label' => 'input_response_label', 'value' => 'input_response_value',       'href' => null],
+    ['icon' => 'fa-solid fa-location-dot', 'label' => 'input_coverage_label', 'value' => 'input_coverage_value',       'href' => null],
+];
 ?>
-<section id="contact" class="section">
+<section id="contact" class="section section-dark">
   <div class="container">
-    <div class="contact-grid">
+    <div class="grid grid-cols-1 items-start gap-[72px] md:grid-cols-[1fr_1.2fr]">
 
       <div>
-        <span class="section-label" style="color:var(--teal-light)" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_label'] ?></span>
+        <span class="section-label" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_label'] ?></span>
         <h2 class="section-title" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_title'] ?></h2>
         <p class="section-subtitle" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['text_subtitle'] ?></p>
 
-        <div class="contact-info">
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
-            <div class="contact-item-text">
-              <span class="contact-item-label" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_phone_label'] ?></span>
-              <a href="tel:<?= $site_phone ?? '' ?>" class="contact-item-value"><?= $site_phone ?? '' ?></a>
+        <div class="mt-8 flex flex-col gap-5">
+          <?php foreach ($contactItems as $item): ?>
+            <div class="flex items-center gap-3.5">
+              <div class="contact-icon"><i class="<?= $item['icon'] ?>"></i></div>
+              <div class="flex flex-col">
+                <span class="contact-item-label" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader[$item['label']] ?></span>
+                <?php if ($item['href']): ?>
+                  <a href="<?= $item['href'] ?>" class="contact-item-value"><?= $item['value'] ?></a>
+                <?php else: ?>
+                  <span class="contact-item-value" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader[$item['value']] ?></span>
+                <?php endif; ?>
+              </div>
             </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
-            <div class="contact-item-text">
-              <span class="contact-item-label" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_email_label'] ?></span>
-              <a href="mailto:<?= $site_email ?? '' ?>" class="contact-item-value"><?= $site_email ?? '' ?></a>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fa-solid fa-clock"></i></div>
-            <div class="contact-item-text">
-              <span class="contact-item-label" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_response_label'] ?></span>
-              <span class="contact-item-value" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_response_value'] ?></span>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
-            <div class="contact-item-text">
-              <span class="contact-item-label" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_coverage_label'] ?></span>
-              <span class="contact-item-value" data-admc-manage="settings_home_contact" data-admc-id="<?= $contactHeader['id'] ?>"><?= $contactHeader['input_coverage_value'] ?></span>
-            </div>
-          </div>
+          <?php endforeach; ?>
         </div>
       </div>
 
       <div class="contact-form-wrap">
         <p class="contact-form-title"><i class="fa-solid fa-clipboard-list"></i> Request a Free Quote</p>
-        <form class="contact-form" onsubmit="submitForm(event)">
-          <div class="form-row">
-            <div class="form-group">
-              <label>First Name *</label>
-              <input type="text" name="first_name" placeholder="Your first name" required />
-            </div>
-            <div class="form-group">
-              <label>Last Name</label>
-              <input type="text" name="last_name" placeholder="Your last name" />
-            </div>
+
+        <form class="flex flex-col gap-4" data-quote-form>
+          <div class="grid grid-cols-2 gap-3.5">
+            <label class="field">
+              <span class="field-label">First Name *</span>
+              <input type="text" name="first_name" class="field-control" placeholder="Your first name" required>
+            </label>
+            <label class="field">
+              <span class="field-label">Last Name</span>
+              <input type="text" name="last_name" class="field-control" placeholder="Your last name">
+            </label>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Phone Number *</label>
-              <input type="tel" name="phone" placeholder="07xxx xxx xxx" required />
-            </div>
-            <div class="form-group">
-              <label>Email Address</label>
-              <input type="email" name="email" placeholder="your@email.com" />
-            </div>
+
+          <div class="grid grid-cols-2 gap-3.5">
+            <label class="field">
+              <span class="field-label">Phone Number *</span>
+              <input type="tel" name="phone" class="field-control" placeholder="07xxx xxx xxx" required>
+            </label>
+            <label class="field">
+              <span class="field-label">Email Address</span>
+              <input type="email" name="email" class="field-control" placeholder="your@email.com">
+            </label>
           </div>
-          <div class="form-group">
-            <label>Service Required *</label>
-            <select name="service" required>
+
+          <label class="field">
+            <span class="field-label">Service Required *</span>
+            <select name="service" class="field-control" required>
               <option value="">Select a service...</option>
-              <?php foreach ($formServiceOptions as $opt) { ?>
-                <option value="<?= $opt['input_name'] ?>"><?= $opt['input_name'] ?></option>
-              <?php } ?>
+              <?php foreach ($formServiceOptions as $opt): ?>
+                <option value="<?= htmlspecialchars($opt['input_name']) ?>"><?= htmlspecialchars($opt['input_name']) ?></option>
+              <?php endforeach; ?>
             </select>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Property Size</label>
-              <select name="property_size">
+          </label>
+
+          <div class="grid grid-cols-2 gap-3.5">
+            <label class="field">
+              <span class="field-label">Property Size</span>
+              <select name="property_size" class="field-control">
                 <option value="">Select...</option>
-                <?php foreach ($formPropertyOptions as $opt) { ?>
-                  <option value="<?= $opt['input_name'] ?>"><?= $opt['input_name'] ?></option>
-                <?php } ?>
+                <?php foreach ($formPropertyOptions as $opt): ?>
+                  <option value="<?= htmlspecialchars($opt['input_name']) ?>"><?= htmlspecialchars($opt['input_name']) ?></option>
+                <?php endforeach; ?>
               </select>
-            </div>
-            <div class="form-group">
-              <label>Postcode *</label>
-              <input type="text" name="postcode" placeholder="e.g. EH1 1AA" required />
-            </div>
+            </label>
+            <label class="field">
+              <span class="field-label">Postcode *</span>
+              <input type="text" name="postcode" class="field-control" placeholder="e.g. EH1 1AA" required>
+            </label>
           </div>
-          <div class="form-group">
-            <label>Additional Notes</label>
-            <textarea name="notes" rows="3" placeholder="Anything else we should know? (e.g. furnished, oven clean needed, access details...)"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg form-submit">
+
+          <label class="field">
+            <span class="field-label">Additional Notes</span>
+            <textarea name="notes" rows="3" class="field-control" placeholder="Anything else we should know? (e.g. furnished, oven clean needed, access details...)"></textarea>
+          </label>
+
+          <button type="submit" class="btn btn-primary btn-lg mt-1 w-full justify-center">
             Send My Quote Request →
           </button>
         </form>
