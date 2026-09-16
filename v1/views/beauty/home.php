@@ -1,6 +1,6 @@
 <?php
 /**
- * NextShine Beauty: the one-page site served on BEAUTY_DOMAIN.
+ * NextShine Beauty: the one-page site at /beauty.
  */
 $hero       = selectContent($conn, "settings_beauty_hero", ["visibility" => "show"])[0];
 $highlights = selectContentAsc($conn, "panel_beauty_highlights", ["visibility" => "show"], "input_order", 10);

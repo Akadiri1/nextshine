@@ -82,13 +82,13 @@ www/                Document root.
 `www/index.php` loads the site settings, then includes the routers in order.
 The first match wins and stops the request:
 
-1. `v1/ajax/ajax_router/router.php` — generic CRUD (`/add`, `/read`, `/put`, `/delete`, ...)
-2. `v1/admc_ext/ext_route/router.php` — `/mck_ext` admin session bridge
-3. `v1/routes/admin_router.php` — `/add/<table>`, `/create/<table>`, `/manage/<table>`
-4. `v1/routes/beauty_router.php` — only for requests to `BEAUTY_DOMAIN`; handles every path there
-5. `v1/auth/auth_router/router.php` — `/login`, `/signup`, ...
-6. `v1/routes/ajax_router.php` — `/quote-request`
-7. `v1/routes/router.php` — public pages, falling through to `views/404.php`
+1. `v1/routes/admin_router.php` — `/add/<table>`, `/create/<table>`, `/manage/<table>`
+2. `v1/ajax/ajax_router/router.php` — generic CRUD (`/add`, `/read`, `/put`, `/delete`, ...)
+3. `v1/admc_ext/ext_route/router.php` — `/mck_ext` admin session bridge
+4. `v1/auth/auth_router/router.php` — `/login`, `/signup`, ...
+5. `v1/routes/ajax_router.php` — `/quote-request`
+6. `v1/routes/router.php` — public pages, falling through to `views/404.php`.
+   `/beauty` and every path under it go to `v1/routes/beauty_router.php`.
 
 ## Pages
 
@@ -100,9 +100,9 @@ The first match wins and stops the request:
 | `/reviews` | `reviews.php` (shows "Real reviews coming soon" until a review is visible) |
 | `/contact` | `contact.php` |
 | `/services`, `/pricing`, `/about`, `/coverage` | Retired: 301 to `/cleaning`, `/cleaning#pricing`, `/#about`, `/contact#coverage` |
-| `/beauty` | Redirects to the beauty subdomain |
-| Beauty subdomain `/` | `beauty/home.php` |
-| Beauty subdomain `/booking-request` (POST) | `beauty/booking-request-mail-backend.php` |
+| `/beauty` | `beauty/home.php` (NextShine Beauty, with its own design) |
+| `/beauty/booking-request` (POST) | `beauty/booking-request-mail-backend.php` |
+| `/beauty/<anything else>` | `beauty/404.php` |
 | `/quote-request` (POST) | `quote-request-mail-backend.php` |
 
 ## Database
@@ -144,37 +144,35 @@ $table->admcColumns();   // visibility, date_created (DATE), time_created (TIME)
 - **Maintenance mode**: set `maintenance_status` to 1 in Website Info. Visitors
   see `views/maintenance.php`; signed-in admins still see the site.
 
-## NextShine Beauty (subdomain)
+## NextShine Beauty (/beauty)
 
-NextShine Beauty is a separate business with its own look, served from this
-codebase and database on its own subdomain.
+NextShine Beauty is a separate business with its own look, served as a page
+of this site at `/beauty`, from the same codebase and database.
 
-- `BEAUTY_DOMAIN` in `.env/config.php` names the host. Requests for it go to
-  `v1/routes/beauty_router.php`; everything else is the cleaning site, where
-  `/beauty` redirects to the subdomain. The cleaning navbar links to it with
-  a gold button beside "Get a Quote" (**Home Nav Button**,
-  `settings_home_nav_button`: text, Font Awesome icon and link).
+- `v1/routes/router.php` hands `/beauty` and every path under it to
+  `v1/routes/beauty_router.php`, so nothing there falls through to the
+  cleaning pages. The cleaning navbar links to it with a gold button beside
+  "Get a Quote" (**Home Nav Button**, `settings_home_nav_button`: text, Font
+  Awesome icon and link).
 - Views are in `v1/views/beauty/`, with their own header, footer and 404.
   Styles: `src/beauty.css` + `tailwind.beauty.config.js`, built to
   `www/assets/css/beauty.css`. Script: `www/assets/js/beauty.js`.
 - Content lives in the `*_beauty_*` tables and is live-editable like the
-  cleaning site.
+  cleaning site, with the same admin login. Maintenance mode covers it too.
 - Menus: **Beauty Nav** (`panel_beauty_nav`) feeds the navbar and mobile
-  menu (the black top bar only carries its message); **Beauty Footer Links** (`panel_beauty_footer_links`) the
-  footer. In a link, `{main}` stands for the main NextShine site, so
-  `{main}/cleaning` works locally and live. `/` is the beauty home page and
-  is highlighted as the current site. The booking form emails the address in **Beauty Site**
-  (`settings_beauty_site`), or the main site email when that is blank.
+  menu (the black top bar only carries its message); **Beauty Footer Links**
+  (`panel_beauty_footer_links`) the footer. Links are site paths (`/`,
+  `/cleaning`, `/beauty`) or anchors on the Beauty page (`#booking`); the
+  `/beauty` link is highlighted as the current page.
+- The booking form posts to `/beauty/booking-request` and emails the address
+  in **Beauty Site** (`settings_beauty_site`), or the main site email when
+  that is blank.
 - Photos: the hero, each service and hair shop product (`image_1` columns),
   and the **Our Work** gallery (`panel_beauty_gallery`). Admins click a photo
   to replace it; empty slots show an "Add a photo" box only to admins, and
   gallery items without a photo are hidden from visitors. The current photos
   are Pexels stock placeholders listed in `www/assets/images/beauty/CREDITS.md`;
   swap them for the client's own work before launch.
-- Deploying: point the subdomain's DNS and vhost at the same DocumentRoot, and
-  add it to **Allowed Headers** so live editing works there.
-- Locally: add `127.0.0.1 beauty.nextshine.local` to the hosts file and
-  `ServerAlias beauty.nextshine.local` to the nextshine vhost, then restart Apache.
 
 ## Front end
 

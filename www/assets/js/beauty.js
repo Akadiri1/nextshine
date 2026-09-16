@@ -34,7 +34,7 @@
   }
 
   /* ---------------------------------------------------------------------
-     Appointment request → POST /booking-request
+     Appointment request → POST /beauty/booking-request
      (views/beauty/booking-request-mail-backend.php)
      ------------------------------------------------------------------ */
   const BOOKING_FIELDS = ['first_name', 'last_name', 'phone', 'service', 'notes'];
@@ -76,7 +76,7 @@
 
       let result;
       try {
-        const response = await fetch('/booking-request', {
+        const response = await fetch('/beauty/booking-request', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),

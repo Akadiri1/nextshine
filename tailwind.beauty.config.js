@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-// NextShine Beauty (beauty subdomain). A different business from NextShine
+// NextShine Beauty (the /beauty page). A different business from NextShine
 // Cleaning, so it has its own build, palette and type; nothing here is shared
 // with tailwind.config.js. Built to www/assets/css/beauty.css.
 module.exports = {

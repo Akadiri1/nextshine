@@ -31,12 +31,12 @@ class BeautySeeder extends Seeder {
             'input_company_number'    => '',
         ]);
 
-        // Menus. "{main}" is replaced with the main NextShine site's URL.
+        // Menus. The /beauty link is marked as the current page.
         $this->insertMissing('panel_beauty_nav', [
-            ['hash_id' => '89001', 'input_name' => 'Home',     'input_link' => '{main}/',         'input_order' => '1'],
-            ['hash_id' => '89002', 'input_name' => 'Cleaning', 'input_link' => '{main}/cleaning', 'input_order' => '2'],
-            ['hash_id' => '89003', 'input_name' => 'Beauty',   'input_link' => '/',               'input_order' => '3'],
-            ['hash_id' => '89004', 'input_name' => 'Contact',  'input_link' => '#booking',        'input_order' => '4'],
+            ['hash_id' => '89001', 'input_name' => 'Home',     'input_link' => '/',         'input_order' => '1'],
+            ['hash_id' => '89002', 'input_name' => 'Cleaning', 'input_link' => '/cleaning', 'input_order' => '2'],
+            ['hash_id' => '89003', 'input_name' => 'Beauty',   'input_link' => '/beauty',   'input_order' => '3'],
+            ['hash_id' => '89004', 'input_name' => 'Contact',  'input_link' => '#booking',  'input_order' => '4'],
         ]);
         $this->insertMissing('panel_beauty_footer_links', [
             ['hash_id' => '89101', 'input_name' => 'Privacy Policy', 'input_link' => '#', 'input_order' => '1'],

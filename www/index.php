@@ -33,14 +33,6 @@ $userHTTP    = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https
 $domain      = $_SERVER['HTTP_HOST'];
 $current_uri = $userHTTP . $domain . $_SERVER['REQUEST_URI'];
 
-// NextShine Beauty is a separate site on its own subdomain (BEAUTY_DOMAIN),
-// served from this codebase and database.
-$beautyDomain  = strtolower((string) getenv('BEAUTY_DOMAIN'));
-$requestHost   = strtolower(preg_replace('/:\d+$/', '', $domain));
-$isBeautySite  = $beautyDomain !== '' && $requestHost === $beautyDomain;
-$mainSiteUrl   = $userHTTP . getenv('APP_DOMAIN');
-$beautySiteUrl = $beautyDomain !== '' ? $userHTTP . $beautyDomain : '';
-
 // Identifies this site to the ADMC admin tooling.
 if (getenv("ADMC_USERNAME")) {
     setcookie("admc", getenv("ADMC_USERNAME"), time() + 31536000, "/", "", false, false);
@@ -92,11 +84,6 @@ $fbid     = "2213158278782711";
 include APP_PATH . "/routes/admin_router.php";
 include APP_PATH . "/ajax/ajax_router/router.php";
 include APP_PATH . "/admc_ext/ext_route/router.php";
-
-if ($isBeautySite) {
-    include APP_PATH . "/routes/beauty_router.php";
-}
-
 include APP_PATH . "/auth/auth_router/router.php";
 include APP_PATH . "/routes/ajax_router.php";
 include APP_PATH . "/routes/router.php";

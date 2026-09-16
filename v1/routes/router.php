@@ -15,6 +15,15 @@ if (!empty($maintenance_status) && !isset($_SESSION['admin_id'])) {
 }
 
 # ---------------------------------------------------------------------------
+# NextShine Beauty - /beauty and every path under it. A separate business with
+# its own design, views and routes (routes/beauty_router.php).
+# ---------------------------------------------------------------------------
+if (($uri[1] ?? '') === 'beauty') {
+    include APP_PATH . "/routes/beauty_router.php";
+    die;
+}
+
+# ---------------------------------------------------------------------------
 # Detail pages - /segment/<id>[/<slug>]
 # ---------------------------------------------------------------------------
 if (count($uri) > 2 && $uri[2] !== "") {
@@ -52,16 +61,6 @@ switch ($uri[1] ?? '') {
 
     case 'contact':
         include APP_PATH . "/views/contact.php";
-        die;
-
-    // NextShine Beauty lives on its own subdomain (BEAUTY_DOMAIN). A temporary
-    // redirect, so a change of subdomain takes effect straight away.
-    case 'beauty':
-        if ($beautySiteUrl === '') {
-            include APP_PATH . "/views/404.php";
-            die;
-        }
-        header("Location: " . $beautySiteUrl . "/", true, 302);
         die;
 
     // Pages retired when Services and Pricing merged into Cleaning, and About

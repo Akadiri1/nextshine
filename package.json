@@ -1,7 +1,7 @@
 {
   "name": "nextshine",
   "version": "1.0.0",
-  "description": "NextShine Cleaning website and the NextShine Beauty subdomain",
+  "description": "NextShine Cleaning website and the NextShine Beauty page",
   "private": true,
   "scripts": {
     "dev": "tailwindcss -i ./src/input.css -o ./www/assets/css/app.css --watch",

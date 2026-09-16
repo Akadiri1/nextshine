@@ -26,10 +26,6 @@ putenv('APP_NAME=NextShine Cleaning');
 // The domain the site is served from, with no scheme and no trailing slash.
 putenv('APP_DOMAIN=nextshinegroup.co.uk');
 
-// NextShine Beauty's subdomain, served from this same codebase. Point its DNS
-// and vhost at the same DocumentRoot. Remove the line to switch Beauty off.
-putenv('BEAUTY_DOMAIN=beauty.nextshinegroup.co.uk');
-
 /**
  * PRODUCTION_MODE
  *

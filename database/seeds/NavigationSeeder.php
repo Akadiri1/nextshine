@@ -3,7 +3,7 @@ use App\Migrator\Seeder;
 
 /**
  * Menu after "Home" (which is fixed in the header), and the Beauty button
- * beside "Get a Quote". /beauty redirects to the beauty subdomain.
+ * beside "Get a Quote", which opens the Beauty page at /beauty.
  */
 class NavigationSeeder extends Seeder {
     public function run() {

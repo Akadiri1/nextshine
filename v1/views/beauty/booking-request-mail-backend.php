@@ -1,6 +1,6 @@
 <?php
 /**
- * POST /booking-request (beauty site)
+ * POST /beauty/booking-request
  *
  * Receives the appointment form (JSON, fields named as in
  * www/assets/js/beauty.js) and emails it to NextShine Beauty. The form has no

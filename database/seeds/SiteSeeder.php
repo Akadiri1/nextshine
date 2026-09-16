@@ -48,7 +48,6 @@ class SiteSeeder extends Seeder {
         $this->insertMissing('panel_allowed_headers', [
             ['input_name' => 'localhost'],
             ['input_name' => 'nextshine.local'],
-            ['input_name' => 'beauty.nextshine.local'],
         ], 'input_name');
     }
 }

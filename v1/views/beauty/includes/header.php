@@ -14,17 +14,18 @@ $beautyNav  = selectContentAsc($conn, "panel_beauty_nav", ["visibility" => "show
 $beautyTitle      = $page_title ?? $beautySite['input_meta_title'];
 $beautyCssVersion = @filemtime(D_PATH . '/www/assets/css/beauty.css') ?: '1';
 
-// Menu links (navbar, mobile menu, footer) are stored as typed in the
-// admin. "{main}" stands for the main NextShine site, so "{main}/cleaning"
-// works in every environment. Bare anchors ("#booking") point back to the
-// home page when shown on any other page. "/" is this site, marked active.
+// Menu links (navbar, mobile menu, footer) are stored as typed in the admin:
+// site paths such as "/", "/cleaning" and "/beauty", or anchors such as
+// "#booking", which point back to the Beauty page when shown on its 404. A
+// "{main}" prefix left from when Beauty had its own subdomain is dropped.
+// The link to /beauty is marked as the current page.
 $beautyOnHome = ($beautyPath ?? '') === '';
-$beautyHref = function ($link) use ($mainSiteUrl, $beautyOnHome) {
-    $link = str_replace('{main}', $mainSiteUrl, trim($link));
-    return (!$beautyOnHome && isset($link[0]) && $link[0] === '#') ? '/' . $link : $link;
+$beautyHref = function ($link) use ($beautyOnHome) {
+    $link = str_replace('{main}', '', trim($link));
+    return (!$beautyOnHome && isset($link[0]) && $link[0] === '#') ? '/beauty' . $link : $link;
 };
-$beautyActive = function ($link) {
-    return trim($link) === '/' ? ' class="is-active"' : '';
+$beautyActive = function ($link) use ($beautyHref) {
+    return rtrim($beautyHref($link), '/') === '/beauty' ? ' class="is-active"' : '';
 };
 ?>
 <!DOCTYPE html>
@@ -58,7 +59,7 @@ $beautyActive = function ($link) {
 
   <!-- NAVBAR -->
   <nav class="beauty-nav">
-    <a href="<?= $mainSiteUrl ?>/" class="nav-logo">
+    <a href="/" class="nav-logo">
       <span class="logo-group">Next<span>Shine</span> Group</span>
       <span class="logo-sub" data-admc-manage="settings_beauty_site" data-admc-id="<?= $beautySite['id'] ?>"><?= $beautySite['input_logo_sub'] ?></span>
     </a>
