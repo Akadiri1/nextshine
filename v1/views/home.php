@@ -1,5 +1,15 @@
 <?php
-$page_title = "Home";
+/**
+ * Home: the NextShine Group page, following the client's sample index.html.
+ * Cleaning and Beauty side by side: the hero, the two divisions, then the
+ * quote form. The page title and description come from the hero settings.
+ */
+$homeHero        = selectContent($conn, "settings_home_hero", ["visibility" => "show"])[0] ?? [];
+$page_title      = "Home";
+$page_meta_title = $homeHero['input_meta_title'] ?? '';
+if (!empty($homeHero['text_meta_description'])) {
+    $page_meta = $homeHero['text_meta_description'];
+}
 include APP_PATH . "/views/includes/header.php";
 ?>
 
@@ -20,33 +30,13 @@ include APP_PATH . "/views/includes/header.php";
 
 
 <!-- ═══════════════════════════════════════════════════
-     TRUST STRIP
+     OUR SERVICES: THE TWO DIVISIONS
 ═══════════════════════════════════════════════════ -->
-<?php/*##cbcode_10002o##*/?>
-<div data-cbcodesection="cbcode_10002">
-  <?php include APP_PATH . "/views/includes/sections/trust.php"; ?>
+<?php/*##cbcode_10012o##*/?>
+<div data-cbcodesection="cbcode_10012">
+  <?php include APP_PATH . "/views/includes/sections/divisions.php"; ?>
 </div>
-<?php/*##cbcode_10002c##*/?>
-
-
-<!-- ═══════════════════════════════════════════════════
-     WHY CHOOSE US
-═══════════════════════════════════════════════════ -->
-<?php/*##cbcode_10006o##*/?>
-<div data-cbcodesection="cbcode_10006">
-  <?php include APP_PATH . "/views/includes/sections/why.php"; ?>
-</div>
-<?php/*##cbcode_10006c##*/?>
-
-
-<!-- ═══════════════════════════════════════════════════
-     ABOUT
-═══════════════════════════════════════════════════ -->
-<?php/*##cbcode_10007o##*/?>
-<div data-cbcodesection="cbcode_10007">
-  <?php include APP_PATH . "/views/includes/sections/about.php"; ?>
-</div>
-<?php/*##cbcode_10007c##*/?>
+<?php/*##cbcode_10012c##*/?>
 
 
 <!-- ═══════════════════════════════════════════════════

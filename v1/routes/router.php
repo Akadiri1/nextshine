@@ -74,7 +74,7 @@ switch ($uri[1] ?? '') {
         $movedTo = [
             'services' => '/cleaning',
             'pricing'  => '/cleaning#pricing',
-            'about'    => '/#about',
+            'about'    => '/',
             'coverage' => '/contact#coverage',
         ];
         header("Location: " . $movedTo[$uri[1]], true, 301);

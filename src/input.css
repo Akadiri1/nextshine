@@ -320,6 +320,110 @@
     @apply rounded-[20px] border border-white/[.18] bg-white/[.08] p-5 backdrop-blur-[16px] xs:p-6 md:p-8;
   }
 
+  /* Hero card: a way into each division */
+  .hero-card-title {
+    @apply mb-4 font-semibold uppercase text-teal-light;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+  }
+  .hero-division {
+    @apply flex items-center gap-4 rounded-2xl border border-white/15 bg-white/[.08] px-4 py-3.5 text-white xs:px-5 xs:py-4;
+    transition: all 0.25s ease;
+  }
+  .hero-division:hover {
+    @apply border-white/30 bg-white/[.16];
+    transform: translateY(-2px);
+  }
+  .hero-division-icon {
+    @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/[.14] text-white;
+    font-size: 1.2rem;
+  }
+  .hero-division-beauty .hero-division-icon {
+    color: #E8C06A;
+    background: rgba(196, 151, 58, 0.22);
+  }
+  .hero-division-title {
+    @apply font-display font-bold leading-tight;
+    font-size: 1.05rem;
+  }
+  .hero-division-link {
+    @apply mt-0.5 text-white/65;
+    font-size: 0.82rem;
+  }
+
+  /* --- Home: the two divisions ------------------------------------------- */
+  .division-card {
+    @apply flex flex-col overflow-hidden rounded-[20px] bg-white shadow-md;
+    transition: all 0.25s ease;
+  }
+  .division-card:hover {
+    @apply shadow-xl;
+    transform: translateY(-6px);
+  }
+  .division-card-header {
+    @apply px-6 pb-8 pt-8 text-white xs:px-9 xs:pt-9;
+    background: linear-gradient(135deg, rgb(var(--color-navy)) 0%, rgb(var(--color-teal)) 100%);
+  }
+  /* NextShine Beauty keeps its own wine and gold */
+  .division-card-beauty .division-card-header {
+    background: linear-gradient(135deg, #4A1028 0%, #6B1E3B 55%, #8B2A4F 100%);
+  }
+  .division-icon {
+    @apply mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-white/25 bg-white/[.12];
+    font-size: 1.4rem;
+  }
+  .division-card-beauty .division-icon {
+    color: #E8C06A;
+    border-color: rgba(232, 192, 106, 0.45);
+  }
+  .division-title {
+    @apply mb-3 font-display font-bold text-white;
+    font-size: 1.5rem;
+  }
+  .division-desc {
+    @apply text-white/80;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .division-card-body {
+    @apply flex flex-1 flex-col px-6 pb-9 pt-7 xs:px-9;
+  }
+  .division-services {
+    @apply mb-8 flex flex-col gap-3;
+  }
+  .division-services li {
+    @apply flex items-start gap-3 text-grey-dark;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .division-services li::before {
+    content: '\f00c';
+    @apply mt-[3px] shrink-0 text-teal;
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 0.8rem;
+  }
+  .division-card-beauty .division-services li::before {
+    color: #C4973A;
+  }
+  .division-cta {
+    @apply mt-auto self-start border-teal bg-teal text-white;
+  }
+  .division-cta:hover {
+    @apply border-teal-light bg-teal-light;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 135, 138, 0.35);
+  }
+  .division-card-beauty .division-cta {
+    background: #6B1E3B;
+    border-color: #6B1E3B;
+  }
+  .division-card-beauty .division-cta:hover {
+    background: #4A1028;
+    border-color: #4A1028;
+    box-shadow: 0 6px 20px rgba(107, 30, 59, 0.3);
+  }
+
   /* --- Trust strip ------------------------------------------------------- */
   .trust-item {
     @apply flex w-full items-center justify-center gap-2.5 border-b border-white/[.12] px-4 py-2.5

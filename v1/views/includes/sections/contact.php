@@ -5,6 +5,13 @@ $contactHeader = selectContent($conn, "settings_home_contact", ["visibility" => 
 $formServiceOptions  = selectContentAsc($conn, "selection_form_services", ["visibility" => "show"], "input_order", 50);
 $formPropertyOptions = selectContentAsc($conn, "selection_form_property_sizes", ["visibility" => "show"], "input_order", 50);
 
+// Services with an input_group ("Cleaning Services", "Beauty Services") are
+// listed under that heading, in the order each group's first option appears.
+$formServiceGroups = [];
+foreach ($formServiceOptions as $opt) {
+    $formServiceGroups[$opt['input_group'] ?? ''][] = $opt;
+}
+
 $contactItems = [
     ['icon' => 'fa-solid fa-phone',        'label' => 'input_phone_label',    'value' => htmlspecialchars($site_phone), 'href' => 'tel:' . htmlspecialchars($site_phone)],
     ['icon' => 'fa-solid fa-envelope',     'label' => 'input_email_label',    'value' => htmlspecialchars($site_email), 'href' => 'mailto:' . htmlspecialchars($site_email)],
@@ -68,8 +75,12 @@ $contactItems = [
             <span class="field-label">Service Required *</span>
             <select name="service" class="field-control" required>
               <option value="">Select a service...</option>
-              <?php foreach ($formServiceOptions as $opt): ?>
-                <option value="<?= htmlspecialchars($opt['input_name']) ?>"><?= htmlspecialchars($opt['input_name']) ?></option>
+              <?php foreach ($formServiceGroups as $group => $options): ?>
+                <?php if ($group !== ''): ?><optgroup label="<?= htmlspecialchars($group) ?>"><?php endif; ?>
+                <?php foreach ($options as $opt): ?>
+                  <option value="<?= htmlspecialchars($opt['input_name']) ?>"><?= htmlspecialchars($opt['input_name']) ?></option>
+                <?php endforeach; ?>
+                <?php if ($group !== ''): ?></optgroup><?php endif; ?>
               <?php endforeach; ?>
             </select>
           </label>
@@ -78,7 +89,7 @@ $contactItems = [
             <label class="field">
               <span class="field-label">Property Size</span>
               <select name="property_size" class="field-control">
-                <option value="">Select...</option>
+                <option value="">Select (if applicable)...</option>
                 <?php foreach ($formPropertyOptions as $opt): ?>
                   <option value="<?= htmlspecialchars($opt['input_name']) ?>"><?= htmlspecialchars($opt['input_name']) ?></option>
                 <?php endforeach; ?>
@@ -92,7 +103,7 @@ $contactItems = [
 
           <label class="field">
             <span class="field-label">Additional Notes</span>
-            <textarea name="notes" rows="3" class="field-control" placeholder="Anything else we should know? (e.g. furnished, oven clean needed, access details...)"></textarea>
+            <textarea name="notes" rows="3" class="field-control" placeholder="Details about your property, preferred dates, style preferences, or any questions..."></textarea>
           </label>
 
           <button type="submit" class="btn btn-primary btn-lg mt-1 w-full justify-center">

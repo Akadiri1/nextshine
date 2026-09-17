@@ -5,20 +5,23 @@ class HeroSeeder extends Seeder {
     public function run() {
         $this->insertIfEmpty('settings_home_hero', [
             'hash_id'             => '10002',
-            'input_badge_text'    => 'Now accepting new clients in Edinburgh',
-            'input_headline_1'    => 'Edinburgh\'s Most',
-            'input_headline_2'    => 'Reliable Cleaning',
-            'input_headline_3'    => 'Service',
-            'text_description'    => 'Fixed-price end-of-tenancy cleans. Competitive hourly rates for domestic and commercial work. Fully insured, family-run, and always professional.',
-            'input_cta_primary'   => 'Get a Free Quote',
-            'input_cta_secondary' => 'Call Us Now',
-            'input_stat_1_value'  => '100%',
-            'input_stat_1_label'  => 'Satisfaction Guarantee',
-            'input_stat_2_value'  => '£130',
-            'input_stat_2_label'  => 'EOT from (1-bed)',
-            'input_stat_3_value'  => '£21/hr',
-            'input_stat_3_label'  => 'Regular Domestic',
-            'input_card_title'    => 'Get an Instant Quote',
+            // The NextShine Group home page, from the client's sample index.html.
+            'input_meta_title'      => 'NextShine Group | Cleaning & Beauty Services in Edinburgh',
+            'text_meta_description' => 'NextShine Group offers professional cleaning and African hair styling services in Edinburgh. Fixed-price end-of-tenancy cleans, domestic and commercial cleaning, and expert hair styling. Family-run and fully insured.',
+            'input_badge_text'      => 'NextShine Group · Edinburgh, Scotland',
+            'input_headline_1'      => 'Edinburgh\'s Cleaning',
+            'input_headline_2'      => 'and Beauty',
+            'input_headline_3'      => 'Specialists',
+            'text_description'      => 'Competitive rates for domestic and commercial cleaning, and professional African hair styling.',
+            'input_cta_primary'     => 'Get a Free Quote',
+            'input_cta_secondary'   => 'Call Us Now',
+            'input_stat_1_value'    => '',
+            'input_stat_1_label'    => 'Satisfaction Guarantee',
+            'input_stat_2_value'    => '',
+            'input_stat_2_label'    => 'EOT from (1-bed)',
+            'input_stat_3_value'    => '',
+            'input_stat_3_label'    => 'Regular Domestic',
+            'input_card_title'      => 'Our Services',
         ]);
 
         $this->insertMissing('panel_trust_items', [

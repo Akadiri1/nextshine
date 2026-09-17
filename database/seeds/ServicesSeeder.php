@@ -10,9 +10,11 @@ class ServicesSeeder extends Seeder {
             'text_subtitle' => 'From full end-of-tenancy deep cleans to regular domestic and commercial contracts — we cover everything Edinburgh landlords and businesses need.',
         ]);
 
+        // Photos are the client's uploads on the live site (ADMC's S3 storage).
         $this->insertMissing('panel_services', [
             [
                 'hash_id'               => '30001',
+                'image_1'               => 'https://mck-admc.s3.amazonaws.com/nextshine/uploads/2026/04/13/17760801472513923filename.jpg',
                 'input_slug'            => 'end-of-tenancy-clean',
                 'input_icon'            => 'fa-solid fa-broom',
                 'input_badge'           => 'MOST POPULAR',
@@ -42,6 +44,7 @@ class ServicesSeeder extends Seeder {
             ],
             [
                 'hash_id'               => '30002',
+                'image_1'               => 'https://mck-admc.s3.amazonaws.com/nextshine/uploads/2026/04/13/17760801702059215filename.jpg',
                 'input_slug'            => 'regular-domestic-cleaning',
                 'input_icon'            => 'fa-solid fa-house-chimney',
                 'input_badge'           => 'REGULAR',
@@ -71,6 +74,7 @@ class ServicesSeeder extends Seeder {
             ],
             [
                 'hash_id'               => '30003',
+                'image_1'               => 'https://mck-admc.s3.amazonaws.com/nextshine/uploads/2026/04/13/17760803956691163filename.jpg',
                 'input_slug'            => 'commercial-office-cleaning',
                 'input_icon'            => 'fa-solid fa-building',
                 'input_badge'           => 'COMMERCIAL',
@@ -100,6 +104,7 @@ class ServicesSeeder extends Seeder {
             ],
             [
                 'hash_id'               => '30004',
+                'image_1'               => 'https://mck-admc.s3.amazonaws.com/nextshine/uploads/2026/04/13/17760805101236573filename.jpg',
                 'input_slug'            => 'one-off-deep-clean',
                 'input_icon'            => 'fa-solid fa-wand-magic-sparkles',
                 'input_badge'           => '',
@@ -129,6 +134,7 @@ class ServicesSeeder extends Seeder {
             ],
             [
                 'hash_id'               => '30005',
+                'image_1'               => 'https://mck-admc.s3.amazonaws.com/nextshine/uploads/2026/04/13/17760808535776802filename.jpg',
                 'input_slug'            => 'post-construction-clean',
                 'input_icon'            => 'fa-solid fa-hammer',
                 'input_badge'           => '',
@@ -158,6 +164,7 @@ class ServicesSeeder extends Seeder {
             ],
             [
                 'hash_id'               => '30006',
+                'image_1'               => 'https://mck-admc.s3.amazonaws.com/nextshine/uploads/2026/04/13/17760809999040283filename.jpg',
                 'input_slug'            => 'airbnb-short-let-cleaning',
                 'input_icon'            => 'fa-solid fa-key',
                 'input_badge'           => 'SHORT-LET',

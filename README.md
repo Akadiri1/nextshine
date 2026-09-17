@@ -94,12 +94,12 @@ The first match wins and stops the request:
 
 | Route | View |
 |---|---|
-| `/`, `/home` | `home.php` |
+| `/`, `/home` | `home.php` (NextShine Group: hero, the two divisions, quote form) |
 | `/cleaning` | `cleaning.php` (services, how it works, pricing, contact) |
 | `/services/<hash_id>/<slug>` | `service-details.php` |
 | `/reviews` | `reviews.php` (shows "Real reviews coming soon" until a review is visible) |
 | `/contact` | `contact.php` |
-| `/services`, `/pricing`, `/about`, `/coverage` | Retired: 301 to `/cleaning`, `/cleaning#pricing`, `/#about`, `/contact#coverage` |
+| `/services`, `/pricing`, `/about`, `/coverage` | Retired: 301 to `/cleaning`, `/cleaning#pricing`, `/`, `/contact#coverage` |
 | `/beauty` | `beauty/home.php` (NextShine Beauty, with its own design) |
 | `/beauty/booking-request` (POST) | `beauty/booking-request-mail-backend.php` |
 | `/beauty/<anything else>` | `beauty/404.php` |
@@ -138,6 +138,21 @@ $table->admcColumns();   // visibility, date_created (DATE), time_created (TIME)
   anything editable.
 - Icons on both sites are Font Awesome 6 class names stored in `input_icon`
   columns, e.g. `fa-solid fa-phone` or `fa-brands fa-whatsapp`.
+- The home page is the NextShine Group page from the client's sample: the hero
+  (`settings_home_hero`, which also holds the page title and description), the
+  two divisions (`settings_home_divisions`, `panel_home_divisions`, each
+  division's services in `addition_home_division_services`; `input_theme`
+  `beauty` gives a card NextShine Beauty's colours) and the quote form. The
+  form's services are grouped under headings by `input_group` in
+  `selection_form_services`.
+- The footer covers both divisions: **Cleaning Services** lists `panel_services`
+  (each linking to its detail page) and **Beauty Services** lists the Beauty
+  page's styles and hair shop (`panel_beauty_services`, `panel_beauty_products`,
+  linking to `/beauty#services` and `/beauty#hair`). Both headings are in
+  `settings_home_footer`.
+- The menu follows the sample: Home, Cleaning, Beauty, Contact. Reviews
+  (`panel_home_nav`) and the Beauty button (`settings_home_nav_button`) are
+  hidden, not deleted.
 - Brand colours come from **Site Colors** (`settings_site_colors`).
   `includes/theme.php` turns them into CSS variables that the Tailwind palette
   reads, so recolouring needs no rebuild.
@@ -151,9 +166,10 @@ of this site at `/beauty`, from the same codebase and database.
 
 - `v1/routes/router.php` hands `/beauty` and every path under it to
   `v1/routes/beauty_router.php`, so nothing there falls through to the
-  cleaning pages. The cleaning navbar links to it with a gold button beside
-  "Get a Quote" (**Home Nav Button**, `settings_home_nav_button`: text, Font
-  Awesome icon and link).
+  cleaning pages. The menu links to it (Home, Cleaning, Beauty, Contact), as
+  does its card on the home page. A gold button beside "Get a Quote" (**Home
+  Nav Button**, `settings_home_nav_button`: text, Font Awesome icon and link)
+  is available but hidden.
 - Views are in `v1/views/beauty/`, with their own header, footer and 404.
   Styles: `src/beauty.css` + `tailwind.beauty.config.js`, built to
   `www/assets/css/beauty.css`. Script: `www/assets/js/beauty.js`.

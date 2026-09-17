@@ -6,8 +6,13 @@ $footerSettings = selectContent($conn, "settings_home_footer", ["visibility" => 
 $footerLinks    = selectContentAsc($conn, "panel_footer_links", ["visibility" => "show"], "input_order", 30);
 $footerSocials  = selectContentAsc($conn, "panel_footer_socials", ["visibility" => "show"], "input_order", 10);
 
-// The Services column links straight to each service's detail page.
-$footerServices = selectContentAsc($conn, "panel_services", ["visibility" => "show"], "input_order", 20);
+// Cleaning Services links straight to each service's detail page. Beauty
+// Services lists the Beauty page's styles and hair shop, linking to those
+// sections of /beauty.
+$footerServices       = selectContentAsc($conn, "panel_services", ["visibility" => "show"], "input_order", 20);
+$footerBeautyServices = selectContentAsc($conn, "panel_beauty_services", ["visibility" => "show"], "input_order", 20);
+$footerBeautyProducts = selectContentAsc($conn, "panel_beauty_products", ["visibility" => "show"], "input_order", 10);
+$footerBeautyTitle    = !empty($footerSettings['input_beauty_services_title']) ? $footerSettings['input_beauty_services_title'] : 'Beauty Services';
 
 $footerCompany = array_filter($footerLinks, function ($link) { return $link['input_group'] === 'company'; });
 $footerLegal   = array_filter($footerLinks, function ($link) { return $link['input_group'] === 'legal'; });
@@ -20,7 +25,7 @@ $jsVersion         = @filemtime(D_PATH . '/www/assets/js/app.js') ?: '1';
   <!-- FOOTER -->
   <footer class="bg-navy-dark pb-7 pt-14 text-white/[.65]">
     <div class="container">
-      <div class="mb-7 grid grid-cols-1 gap-8 border-b border-white/[.08] pb-10 md:grid-cols-2 md:gap-12 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+      <div class="mb-7 grid grid-cols-1 gap-8 border-b border-white/[.08] pb-10 md:grid-cols-2 md:gap-12 lg:grid-cols-[1.6fr_1fr_1fr_0.8fr_1.2fr] lg:gap-8">
 
         <div>
           <a href="/">
@@ -55,6 +60,34 @@ $jsVersion         = @filemtime(D_PATH . '/www/assets/js/app.js') ?: '1';
                    data-admc-manage="panel_services"
                    data-admc-id="<?= $svc['id'] ?>">
                   <?= $svc['input_title'] ?>
+                </a>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title"
+              data-admc-manage="settings_home_footer"
+              data-admc-id="<?= $footerSettings['id'] ?>">
+            <?= $footerBeautyTitle ?>
+          </h4>
+          <ul class="footer-links flex flex-col gap-[9px]">
+            <?php foreach ($footerBeautyServices as $svc): ?>
+              <li>
+                <a href="/beauty#services"
+                   data-admc-manage="panel_beauty_services"
+                   data-admc-id="<?= $svc['id'] ?>">
+                  <?= $svc['input_title'] ?>
+                </a>
+              </li>
+            <?php endforeach; ?>
+            <?php foreach ($footerBeautyProducts as $product): ?>
+              <li>
+                <a href="/beauty#hair"
+                   data-admc-manage="panel_beauty_products"
+                   data-admc-id="<?= $product['id'] ?>">
+                  <?= $product['input_title'] ?>
                 </a>
               </li>
             <?php endforeach; ?>

@@ -2,14 +2,16 @@
 use App\Migrator\Seeder;
 
 /**
- * Menu after "Home" (which is fixed in the header), and the Beauty button
- * beside "Get a Quote", which opens the Beauty page at /beauty.
+ * Menu after "Home" (which is fixed in the header), matching the client's
+ * sample: Home, Cleaning, Beauty, Contact. Reviews and the Beauty button beside
+ * "Get a Quote" are kept but hidden, so either can be shown again in the admin.
  */
 class NavigationSeeder extends Seeder {
     public function run() {
         $this->insertMissing('panel_home_nav', [
             ['hash_id' => '50001', 'input_name' => 'Cleaning', 'input_link' => '/cleaning', 'input_order' => '1'],
-            ['hash_id' => '50005', 'input_name' => 'Reviews',  'input_link' => '/reviews',  'input_order' => '3'],
+            ['hash_id' => '50007', 'input_name' => 'Beauty',   'input_link' => '/beauty',   'input_order' => '2'],
+            ['hash_id' => '50005', 'input_name' => 'Reviews',  'input_link' => '/reviews',  'input_order' => '3', 'visibility' => 'hide'],
             ['hash_id' => '50006', 'input_name' => 'Contact',  'input_link' => '/contact',  'input_order' => '4'],
         ]);
 
@@ -18,6 +20,7 @@ class NavigationSeeder extends Seeder {
             'input_text' => 'Beauty',
             'input_icon' => 'fa-solid fa-spa',
             'input_link' => '/beauty',
+            'visibility' => 'hide',
         ]);
     }
 }
