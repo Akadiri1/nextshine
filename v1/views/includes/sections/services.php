@@ -2,7 +2,8 @@
 $servicesHeader = selectContent($conn, "settings_home_services", ["visibility" => "show"])[0];
 $services       = selectContentAsc($conn, "panel_services", ["visibility" => "show"], "input_order", 20);
 ?>
-<section id="services" class="section bg-off-white">
+<?php // Less top padding than other sections: the page hero's white curve already separates them. ?>
+<section id="services" class="section bg-off-white pt-8 md:pt-10">
   <div class="container">
     <div class="section-header text-center">
       <span class="section-label" data-admc-manage="settings_home_services" data-admc-id="<?= $servicesHeader['id'] ?>"><?= $servicesHeader['input_label'] ?></span>
