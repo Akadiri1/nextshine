@@ -24,6 +24,7 @@ include D_PATH . "/.env/config.php";
 
 require APP_PATH . "/models/model.php";
 require APP_PATH . "/controllers/controller.php";
+require APP_PATH . "/controllers/captcha.php";
 require APP_PATH . "/auth/auth_controller/controller.php";
 
 # ---------------------------------------------------------------------------

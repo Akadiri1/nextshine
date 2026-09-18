@@ -58,8 +58,21 @@
       }
     };
 
+    // Cloudflare Turnstile puts a single-use token in captcha_token once the
+    // visitor passes the security check. No widget means the check is off.
+    const captcha = $('.cf-turnstile', form);
+    const renewCaptcha = () => {
+      if (captcha && window.turnstile) window.turnstile.reset(captcha);
+    };
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      const token = form.elements['captcha_token'];
+      if (captcha && !(token && token.value)) {
+        fail('Please complete the security check first.');
+        return;
+      }
 
       button.textContent = 'Sending...';
       button.disabled = true;
@@ -73,6 +86,7 @@
         const field = form.elements[name];
         data[name] = field ? field.value : '';
       });
+      if (captcha) data.captcha_token = token.value;
 
       let result;
       try {
@@ -83,9 +97,13 @@
         });
         result = await response.json();
       } catch (err) {
+        renewCaptcha();
         fail('Sorry, something went wrong. Please message us on WhatsApp instead.');
         return;
       }
+
+      // The token has been spent either way; get a fresh one for next time.
+      renewCaptcha();
 
       if (result.success) {
         form.classList.add('hidden');

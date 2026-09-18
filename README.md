@@ -43,6 +43,14 @@ database and is edited live through ADMC.
 5. Set the SMTP details in **Website Info** (`settings_website_info`) so quote
    requests can be emailed.
 
+6. Create a Cloudflare Turnstile widget for the site's domain (free, at
+   dash.cloudflare.com > Turnstile) and set `TURNSTILE_SITE_KEY` and
+   `TURNSTILE_SECRET_KEY` in `.env/config.php`. The quote forms and the Beauty
+   booking form then need the security check before they send
+   (`v1/controllers/captcha.php`); with either key empty the check is off.
+   Cloudflare's test keys always pass, for local work:
+   `1x00000000000000000000AA` / `1x0000000000000000000000000000000AA`.
+
 ### PRODUCTION_MODE
 
 Detailed database errors are shown only when `PRODUCTION_MODE=false` **and** the

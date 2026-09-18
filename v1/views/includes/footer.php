@@ -179,6 +179,7 @@ $jsVersion         = @filemtime(D_PATH . '/www/assets/js/app.js') ?: '1';
     </a>
   </div>
 
+  <?= captchaScript() ?>
   <script src="/assets/js/app.js?v=<?= $jsVersion ?>" defer></script>
   <script src="/ajax/ajax.js"></script>
 

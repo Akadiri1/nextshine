@@ -183,6 +183,7 @@ include APP_PATH . "/views/includes/header.php";
                 <textarea name="notes" rows="3" class="field-control field-control-sm" placeholder="Any details about your property..."></textarea>
               </label>
 
+              <?= captchaWidget('dark') ?>
               <button type="submit" class="btn btn-primary btn-lg mt-1 w-full justify-center">
                 Send Quote Request →
               </button>

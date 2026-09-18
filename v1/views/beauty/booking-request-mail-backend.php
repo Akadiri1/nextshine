@@ -32,6 +32,13 @@ if (empty($data['first_name']) || empty($data['phone']) || empty($data['service'
     die;
 }
 
+// Cloudflare Turnstile security check (controllers/captcha.php). Skipped while
+// the Turnstile keys are not set.
+if (!captchaVerify($data['captcha_token'] ?? '')) {
+    echo json_encode(['failed' => 'Please complete the security check and try again.']);
+    die;
+}
+
 $beautySite   = selectContent($conn, "settings_beauty_site", ["visibility" => "show"])[0] ?? [];
 $businessName = !empty($beautySite['input_footer_name']) ? $beautySite['input_footer_name'] : 'NextShine Beauty';
 $recipient    = !empty($beautySite['input_email']) ? $beautySite['input_email'] : $site_email;

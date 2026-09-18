@@ -17,7 +17,8 @@ if (!$divisionsHeader) {
     return;
 }
 ?>
-<section id="services" class="section">
+<?php // Less top padding than other sections: the hero's white curve already separates them. ?>
+<section id="services" class="section pt-8 md:pt-10">
   <div class="container">
     <div class="section-header mx-auto max-w-[680px] text-center">
       <span class="section-label" data-admc-manage="settings_home_divisions" data-admc-id="<?= $divisionsHeader['id'] ?>"><?= $divisionsHeader['input_label'] ?></span>

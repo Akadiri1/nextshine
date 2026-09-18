@@ -27,6 +27,7 @@ $beautyJsVersion   = @filemtime(D_PATH . '/www/assets/js/beauty.js') ?: '1';
     </p>
   </footer>
 
+  <?= captchaScript() ?>
   <script src="/assets/js/beauty.js?v=<?= $beautyJsVersion ?>" defer></script>
   <script src="/ajax/ajax.js"></script>
 

@@ -39,3 +39,12 @@ putenv('PRODUCTION_MODE=true');
 // Identifier used by the ADMC admin tooling (the "admc" cookie, and the
 // dashboard at <ADMC_USERNAME>.admc.dev).
 putenv('ADMC_USERNAME=nextshine');
+
+# --- Security check on the forms (Cloudflare Turnstile) ----------------------
+// Create a free Turnstile widget for this site's domain at dash.cloudflare.com
+// (Turnstile > Add widget) and paste its two keys here. The quote forms and
+// the Beauty booking form then need the check to send. With either key empty
+// the check is off. For local testing, Cloudflare's test keys always pass:
+// 1x00000000000000000000AA / 1x0000000000000000000000000000000AA
+putenv('TURNSTILE_SITE_KEY=');
+putenv('TURNSTILE_SECRET_KEY=');

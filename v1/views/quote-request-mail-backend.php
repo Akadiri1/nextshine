@@ -32,6 +32,13 @@ if (empty($data['first_name']) || empty($data['phone'])) {
     die;
 }
 
+// Cloudflare Turnstile security check (controllers/captcha.php). Skipped while
+// the Turnstile keys are not set.
+if (!captchaVerify($data['captcha_token'] ?? '')) {
+    echo json_encode(['failed' => 'Please complete the security check and try again.']);
+    die;
+}
+
 $first_name    = htmlspecialchars($data['first_name'] ?? '');
 $last_name     = htmlspecialchars($data['last_name'] ?? '');
 $phone         = htmlspecialchars($data['phone'] ?? '');

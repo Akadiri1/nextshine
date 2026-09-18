@@ -114,6 +114,21 @@
           }, 4000);
         };
 
+        // Cloudflare Turnstile puts a single-use token in captcha_token once the
+        // visitor passes the security check. A form without the widget has the
+        // check switched off.
+        const captcha = $('.cf-turnstile', form);
+        const token   = form.elements['captcha_token'];
+        const renewCaptcha = () => {
+          if (captcha && window.turnstile) window.turnstile.reset(captcha);
+        };
+
+        if (captcha && !(token && token.value)) {
+          btn.disabled = true;
+          fail('Please complete the security check first.');
+          return;
+        }
+
         btn.textContent = 'Sending...';
         btn.disabled = true;
 
@@ -122,6 +137,7 @@
           const field = form.elements[name];
           data[name] = field ? field.value : '';
         });
+        if (captcha) data.captcha_token = token.value;
 
         let response;
         try {
@@ -131,9 +147,13 @@
             body: JSON.stringify(data),
           });
         } catch (err) {
+          renewCaptcha();
           fail('Network error — please call us directly.');
           return;
         }
+
+        // The token has been spent either way; get a fresh one for next time.
+        renewCaptcha();
 
         let result;
         try {

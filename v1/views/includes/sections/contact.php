@@ -106,6 +106,7 @@ $contactItems = [
             <textarea name="notes" rows="3" class="field-control" placeholder="Details about your property, preferred dates, style preferences, or any questions..."></textarea>
           </label>
 
+          <?= captchaWidget('dark') ?>
           <button type="submit" class="btn btn-primary btn-lg mt-1 w-full justify-center">
             Send My Quote Request →
           </button>

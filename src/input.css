@@ -262,7 +262,9 @@
 
   /* --- Home hero --------------------------------------------------------- */
   .hero {
-    @apply relative flex items-center overflow-hidden pb-10 pt-20 md:min-h-screen md:pb-0 md:pt-[100px];
+    /* As tall as its content (not the full screen), so on large screens the
+       next section is not pushed far below the buttons. */
+    @apply relative flex items-center overflow-hidden pb-10 pt-20 md:pb-0 md:pt-[100px];
     background:
       linear-gradient(135deg, rgba(26, 51, 92, 0.92) 0%, rgba(0, 135, 138, 0.80) 100%),
       linear-gradient(160deg, rgb(var(--color-navy)) 0%, rgb(var(--color-teal)) 50%, rgb(var(--color-navy)) 100%);
