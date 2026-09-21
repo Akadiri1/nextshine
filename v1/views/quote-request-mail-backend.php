@@ -140,10 +140,14 @@ try {
     if ($mail2admin->send()) {
         $result['success'] = "Quote request sent successfully! We'll be in touch shortly.";
     } else {
+        // Logged so a mail problem (wrong host, certificate, login) can be
+        // identified from the server's PHP log; the visitor sees a plain message.
+        error_log('Quote request email failed: ' . $mail2admin->ErrorInfo);
         $result['failed'] = "Sorry, an error occurred. Please try again or call us directly.";
     }
 
 } catch (Exception $e) {
+    error_log('Quote request email failed: ' . $e->getMessage());
     $result['failed'] = "Sorry, an error occurred. Please try again or call us directly.";
 }
 

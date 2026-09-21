@@ -102,10 +102,14 @@ try {
     if ($mail->send()) {
         $result['success'] = "Booking request sent.";
     } else {
+        // Logged so a mail problem (wrong host, certificate, login) can be
+        // identified from the server's PHP log; the visitor sees a plain message.
+        error_log('Booking request email failed: ' . $mail->ErrorInfo);
         $result['failed'] = "Sorry, something went wrong. Please message us on WhatsApp instead.";
     }
 
 } catch (Exception $e) {
+    error_log('Booking request email failed: ' . $e->getMessage());
     $result['failed'] = "Sorry, something went wrong. Please message us on WhatsApp instead.";
 }
 
