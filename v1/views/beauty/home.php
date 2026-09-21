@@ -264,9 +264,15 @@ $beautyWhatsappUrl = !empty($beautySite['input_whatsapp_number'])
               <input type="text" id="booking-last-name" name="last_name" class="form-control" placeholder="Johnson" required>
             </div>
           </div>
-          <div class="form-group">
-            <label for="booking-phone">Phone / WhatsApp Number</label>
-            <input type="tel" id="booking-phone" name="phone" class="form-control" placeholder="+44 7xxx xxxxxx" required>
+          <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <div class="form-group">
+              <label for="booking-phone">Phone / WhatsApp Number</label>
+              <input type="tel" id="booking-phone" name="phone" class="form-control" placeholder="+44 7xxx xxxxxx" required>
+            </div>
+            <div class="form-group">
+              <label for="booking-email">Email Address (optional)</label>
+              <input type="email" id="booking-email" name="email" class="form-control" placeholder="you@example.com">
+            </div>
           </div>
           <div class="form-group">
             <label for="booking-service">Service Interested In</label>

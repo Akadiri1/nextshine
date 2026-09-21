@@ -49,6 +49,30 @@ $postcode      = htmlspecialchars($data['postcode'] ?? '');
 $notes         = htmlspecialchars($data['notes'] ?? '');
 $full_name     = trim("$first_name $last_name");
 
+// What the visitor filled in, repeated back to them in their confirmation.
+$requestSummary = '';
+foreach ([
+    'Service Required' => $service,
+    'Property Size'    => $property_size,
+    'Postcode'         => $postcode,
+    'Phone'            => $phone,
+    'Email'            => $email,
+] as $label => $value) {
+    if ($value === '') {
+        continue;
+    }
+    $requestSummary .= "<tr>
+        <td style='padding: 8px 10px; color: #888; border-bottom: 1px solid #eee; width: 40%;'>$label</td>
+        <td style='padding: 8px 10px; color: #333; border-bottom: 1px solid #eee;'>$value</td>
+    </tr>";
+}
+if ($notes !== '') {
+    $requestSummary .= "<tr>
+        <td style='padding: 8px 10px; color: #888; border-bottom: 1px solid #eee;'>Notes</td>
+        <td style='padding: 8px 10px; color: #333; border-bottom: 1px solid #eee;'>" . nl2br($notes) . "</td>
+    </tr>";
+}
+
 $result = [];
 
 try {
@@ -78,12 +102,30 @@ try {
                 <p style='color: #333; font-size: 15px;'>Dear $first_name,</p>
                 <p style='color: #555; line-height: 1.7;'>Thank you for your quote request. We have received your details and will get back to you within 3 hours during business hours (Mon–Sat 7am–7pm).</p>
                 <p style='color: #555; line-height: 1.7;'>If your request is urgent, please call us directly at <strong>$site_phone</strong>.</p>
+                <p style='color: #333; font-size: 14px; font-weight: bold; margin: 24px 0 8px;'>What you sent us</p>
+                <table style='width: 100%; border-collapse: collapse; font-size: 14px;'>$requestSummary</table>
             </div>
             <div style='padding: 16px 24px; background: #f8f8f8; font-size: 13px; color: #888; text-align: center;'>
                 $site_name · Edinburgh & Surrounding Areas
             </div>
         </div>";
-        $mail->AltBody = "Dear $first_name, thank you for your quote request. We'll be in touch within 3 hours.";
+        $mail->AltBody = "Dear $first_name, thank you for your quote request. We'll be in touch within 3 hours.
+
+"
+            . "What you sent us:
+"
+            . ($service ? "Service required: $service
+" : '')
+            . ($property_size ? "Property size: $property_size
+" : '')
+            . ($postcode ? "Postcode: $postcode
+" : '')
+            . "Phone: $phone
+"
+            . ($email ? "Email: $email
+" : '')
+            . ($notes ? "Notes: $notes
+" : '');
         $mail->send();
     }
 

@@ -52,7 +52,9 @@ $fetchFavicon = selectContent($conn, "read_favicon", ['visibility' => 'show']);
 
 $site = $websiteInfo[0] ?? [];
 
-$site_name          = $site['input_name'] ?? getenv('APP_NAME');
+// Falls back when Website Info has no name, so page titles and emails never
+// come out with a gap where the business name should be.
+$site_name          = !empty($site['input_name']) ? $site['input_name'] : (getenv('APP_NAME') ?: 'NextShine Group');
 $site_email         = $site['input_email'] ?? '';
 $site_phone         = $site['input_phone_number'] ?? '';
 $site_whatsapp      = $site['input_whatsapp_number'] ?? '';

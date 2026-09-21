@@ -37,7 +37,7 @@
      Appointment request → POST /beauty/booking-request
      (views/beauty/booking-request-mail-backend.php)
      ------------------------------------------------------------------ */
-  const BOOKING_FIELDS = ['first_name', 'last_name', 'phone', 'service', 'notes'];
+  const BOOKING_FIELDS = ['first_name', 'last_name', 'phone', 'email', 'service', 'notes'];
 
   function initBookingForm() {
     const form = $('[data-booking-form]');
