@@ -1,5 +1,6 @@
-# Environment / secrets
-.env/config.php
+# Environment / secrets: everything in .env/ except the template
+.env/*
+!.env/config.example.php
 
 # Logs
 log/*.log

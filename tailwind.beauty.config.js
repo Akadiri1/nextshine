@@ -7,6 +7,7 @@ module.exports = {
   content: [
     './v1/views/beauty/**/*.php',
     './www/assets/js/beauty.js',
+    './v1/controllers/captcha.php',
   ],
   corePlugins: { container: false },
   theme: {

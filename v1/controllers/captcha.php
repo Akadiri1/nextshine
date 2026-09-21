@@ -29,9 +29,15 @@ function captchaWidget($theme = 'auto') {
 
     $GLOBALS['captchaWidgetShown'] = true;
 
-    return '<div class="cf-turnstile" data-sitekey="' . htmlspecialchars(captchaSiteKey()) . '"'
+    // The callbacks are defined in captchaScript(): a failed or expired check
+    // runs again by itself, and only a check that keeps failing shows the note.
+    return '<div><div class="cf-turnstile" data-sitekey="' . htmlspecialchars(captchaSiteKey()) . '"'
          . ' data-theme="' . htmlspecialchars($theme) . '" data-size="flexible"'
-         . ' data-response-field-name="captcha_token"></div>';
+         . ' data-response-field-name="captcha_token"'
+         . ' data-retry="auto" data-retry-interval="4000" data-refresh-expired="auto"'
+         . ' data-error-callback="nsCaptchaError" data-expired-callback="nsCaptchaRenew"'
+         . ' data-timeout-callback="nsCaptchaRenew"></div>'
+         . '<p class="mt-2 text-[0.78rem] leading-snug text-white/75" data-captcha-note hidden></p></div>';
 }
 
 /**
@@ -43,7 +49,29 @@ function captchaScript() {
         return '';
     }
 
-    return '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>';
+    // Defined before Turnstile loads, since the widget names them. A failed or
+    // expired check is run again; if it keeps failing the visitor is told how
+    // to reach us instead of being left at a form that will not send.
+    $handlers = <<<'JS'
+<script>
+window.nsCaptchaRenew = function () { if (window.turnstile) window.turnstile.reset(); };
+window.nsCaptchaError = function (code) {
+  window.nsCaptchaFailures = (window.nsCaptchaFailures || 0) + 1;
+  var note = document.querySelector('[data-captcha-note]');
+  if (window.nsCaptchaFailures <= 2) {
+    if (note) { note.hidden = true; }
+    setTimeout(window.nsCaptchaRenew, 4000);
+  } else if (note) {
+    note.textContent = 'The security check could not complete (error ' + code + '). Please refresh the page, or call or message us on WhatsApp instead.';
+    note.hidden = false;
+  }
+  return true;
+};
+</script>
+JS;
+
+    return $handlers . "\n"
+         . '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>';
 }
 
 /**

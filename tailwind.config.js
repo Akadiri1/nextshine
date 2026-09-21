@@ -12,6 +12,7 @@ module.exports = {
     './v1/views/*.php',
     './v1/views/includes/**/*.php',
     './www/assets/js/app.js',
+    './v1/controllers/captcha.php',
   ],
   // .container is defined by hand in src/input.css to match the original
   // 1140px shell, rather than following Tailwind's per-breakpoint widths.
