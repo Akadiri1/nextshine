@@ -287,7 +287,7 @@ $beautyWhatsappUrl = !empty($beautySite['input_whatsapp_number'])
             <label for="booking-notes">Preferred Dates &amp; Any Notes</label>
             <textarea id="booking-notes" name="notes" class="form-control" placeholder="e.g. Weekends preferred, mid-length knotless braids, natural colour..."></textarea>
           </div>
-          <?= captchaWidget('dark') ?>
+          <?= captchaWidget('dark', 'gold') ?>
           <button type="submit" class="form-submit" data-admc-manage="settings_beauty_booking" data-admc-id="<?= $booking['id'] ?>"><?= $booking['input_submit_text'] ?></button>
           <p class="form-note" data-form-note data-admc-manage="settings_beauty_booking" data-admc-id="<?= $booking['id'] ?>"><?= $booking['input_form_note'] ?></p>
         </form>

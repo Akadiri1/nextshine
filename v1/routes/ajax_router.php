@@ -15,4 +15,14 @@ switch ($uri[1]) {
     case 'quote-request':
         include APP_PATH . "/views/quote-request-mail-backend.php";
         die;
+
+    // A fresh security-check challenge for any of the forms.
+    case 'captcha':
+        include APP_PATH . "/views/captcha-endpoint.php";
+        die;
+
+    // Is the handle on the target? Answers the page, without spending the token.
+    case 'captcha-check':
+        include APP_PATH . "/views/captcha-check.php";
+        die;
 }

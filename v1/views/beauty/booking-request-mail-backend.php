@@ -32,10 +32,11 @@ if (empty($data['first_name']) || empty($data['phone']) || empty($data['service'
     die;
 }
 
-// Cloudflare Turnstile security check (controllers/captcha.php). Skipped while
-// the Turnstile keys are not set.
-if (!captchaVerify($data['captcha_token'] ?? '')) {
-    echo json_encode(['failed' => 'Please complete the security check and try again.']);
+// Security check (controllers/captcha.php): the typed code against the signed
+// token it came with, plus the hidden field people leave empty. Skipped while
+// CAPTCHA_SECRET is not set.
+if (!captchaVerify($data['captcha_token'] ?? '', $data['captcha_answer'] ?? '', $data['website'] ?? '')) {
+    echo json_encode(['failed' => 'The security check did not pass, or it has expired. Please try the new one.']);
     die;
 }
 

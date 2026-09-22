@@ -426,6 +426,94 @@
     box-shadow: 0 6px 20px rgba(107, 30, 59, 0.3);
   }
 
+  /* --- Security check on the forms --------------------------------------- */
+  .captcha {
+    @apply flex flex-col gap-3 rounded-xl border border-white/15 bg-white/[.06] p-3.5;
+  }
+  .captcha-challenge {
+    @apply flex items-center justify-between gap-3;
+  }
+  .captcha-label {
+    @apply font-semibold uppercase text-white/70;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+  .captcha-question {
+    @apply font-display font-bold text-white;
+    font-size: 1.05rem;
+  }
+  .captcha-refresh {
+    @apply flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/25 bg-white/10 text-white;
+    font-size: 1rem;
+    transition: background 0.2s;
+  }
+  .captcha-refresh:hover {
+    @apply bg-white/20;
+  }
+  .captcha-track {
+    @apply relative w-full max-w-[420px] overflow-hidden rounded-full bg-white;
+    aspect-ratio: 600 / 64;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+  .captcha-slider {
+    @apply absolute inset-0 m-0 h-full w-full cursor-grab appearance-none bg-transparent p-0 opacity-0;
+  }
+  .captcha-handle {
+    @apply pointer-events-none absolute top-0 flex h-full items-center justify-center rounded-full bg-teal text-white shadow-md;
+    width: 10.6667%;
+    left: 0;
+  }
+  .captcha-handle svg {
+    @apply h-1/2 w-1/2;
+  }
+  .captcha-slider:focus-visible + .captcha-handle {
+    @apply ring-2 ring-white;
+  }
+  .captcha-field {
+    @apply flex flex-col gap-2;
+  }
+  .captcha-input {
+    @apply rounded-lg border border-white/15 bg-white/[.07] px-3.5 py-2.5 text-white outline-none;
+    font-size: 0.95rem;
+  }
+  .captcha-input:focus {
+    @apply border-teal-light;
+  }
+  .captcha-trap {
+    @apply hidden;
+  }
+  /* On a white background */
+  .captcha-light {
+    @apply border-grey-light bg-white;
+  }
+  .captcha-light .captcha-label {
+    @apply text-grey;
+  }
+  .captcha-light .captcha-question {
+    @apply text-navy;
+  }
+  .captcha-light .captcha-refresh {
+    @apply border-grey-light bg-white text-navy;
+  }
+  .captcha-light .captcha-input {
+    @apply border-grey-light bg-white text-navy;
+  }
+
+  .captcha-status {
+    @apply font-semibold text-white/70;
+    font-size: 0.85rem;
+  }
+  .captcha-status.is-ok {
+    @apply text-teal-light;
+    font-size: 1rem;
+  }
+  /* Passed: the track goes away and only "Verified" remains. */
+  .captcha.is-verified .captcha-track,
+  .captcha.is-verified .captcha-label {
+    @apply hidden;
+  }
+
   /* --- Trust strip ------------------------------------------------------- */
   .trust-item {
     @apply flex w-full items-center justify-center gap-2.5 border-b border-white/[.12] px-4 py-2.5

@@ -43,13 +43,18 @@ database and is edited live through ADMC.
 5. Set the SMTP details in **Website Info** (`settings_website_info`) so quote
    requests can be emailed.
 
-6. Create a Cloudflare Turnstile widget for the site's domain (free, at
-   dash.cloudflare.com > Turnstile) and set `TURNSTILE_SITE_KEY` and
-   `TURNSTILE_SECRET_KEY` in `.env/config.php`. The quote forms and the Beauty
-   booking form then need the security check before they send
-   (`v1/controllers/captcha.php`); with either key empty the check is off.
-   Cloudflare's test keys always pass, for local work:
-   `1x00000000000000000000AA` / `1x0000000000000000000000000000000AA`.
+6. Set `CAPTCHA_SECRET` in `.env/config.php` to a long random string
+   (`php -r "echo bin2hex(random_bytes(32));"`). It secures the check on the
+   quote forms and the Beauty booking form (`v1/controllers/captcha.php`): the
+   visitor slides a puzzle piece into the gap in a picture drawn by GD, and the
+   form posts the slider position with a JWT (HS256) whose `pos` claim is the
+   gap position sealed with AES-256-GCM, alongside the issue time, a 5-minute
+   expiry and a one-time id held in the session. A slide within
+   `CAPTCHA_TOLERANCE` pixels passes; a hidden `website` field and a minimum
+   age catch the rest. `GET /captcha` hands out a fresh challenge, needed after
+   every attempt. Without GD or OpenSSL it falls back to a typed sum. No
+   third-party service and no database table. With the secret empty the check
+   is off; changing it only invalidates challenges already on screen.
 
 ### PRODUCTION_MODE
 

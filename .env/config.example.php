@@ -40,11 +40,9 @@ putenv('PRODUCTION_MODE=true');
 // dashboard at <ADMC_USERNAME>.admc.dev).
 putenv('ADMC_USERNAME=nextshine');
 
-# --- Security check on the forms (Cloudflare Turnstile) ----------------------
-// Create a free Turnstile widget for this site's domain at dash.cloudflare.com
-// (Turnstile > Add widget) and paste its two keys here. The quote forms and
-// the Beauty booking form then need the check to send. With either key empty
-// the check is off. For local testing, Cloudflare's test keys always pass:
-// 1x00000000000000000000AA / 1x0000000000000000000000000000000AA
-putenv('TURNSTILE_SITE_KEY=');
-putenv('TURNSTILE_SECRET_KEY=');
+# --- Security check on the forms --------------------------------------------
+// Signs the security-check tokens on the quote and booking forms. Any long
+// random string; keep it secret and do not reuse it elsewhere. Leave it empty
+// to switch the check off. Generate one with:
+//   php -r "echo bin2hex(random_bytes(32));"
+putenv('CAPTCHA_SECRET=');

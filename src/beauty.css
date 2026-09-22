@@ -448,6 +448,78 @@
     font-size: 0.9rem;
   }
 
+  /* --- Security check on the booking form --------------------------------- */
+  .captcha {
+    @apply flex flex-col gap-3 rounded-sm border border-white/15 bg-white/[.06] p-3.5;
+  }
+  .captcha-challenge {
+    @apply flex items-center justify-between gap-3;
+  }
+  .captcha-label {
+    @apply font-semibold uppercase text-white/70;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+  }
+  .captcha-question {
+    @apply font-serif font-bold text-white;
+    font-size: 1.1rem;
+  }
+  .captcha-refresh {
+    @apply flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-gold/40 bg-gold/15 text-gold-light;
+    font-size: 1rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .captcha-refresh:hover {
+    @apply bg-gold text-wine-dark;
+  }
+  .captcha-track {
+    @apply relative w-full max-w-[420px] overflow-hidden rounded-full bg-white;
+    aspect-ratio: 600 / 64;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+  .captcha-slider {
+    @apply absolute inset-0 m-0 h-full w-full cursor-grab appearance-none bg-transparent p-0 opacity-0;
+  }
+  .captcha-handle {
+    @apply pointer-events-none absolute top-0 flex h-full items-center justify-center rounded-full bg-wine text-white shadow-md;
+    width: 10.6667%;
+    left: 0;
+  }
+  .captcha-handle svg {
+    @apply h-1/2 w-1/2;
+  }
+  .captcha-slider:focus-visible + .captcha-handle {
+    @apply ring-2 ring-gold-light;
+  }
+  .captcha-field {
+    @apply flex flex-col gap-2;
+  }
+  .captcha-input {
+    @apply rounded-sm border border-white/15 bg-white/[.07] px-3.5 py-2.5 font-sans text-white outline-none;
+    font-size: 0.9rem;
+  }
+  .captcha-input:focus {
+    @apply border-gold;
+  }
+  .captcha-trap {
+    @apply hidden;
+  }
+
+  .captcha-status {
+    @apply font-semibold text-white/70;
+    font-size: 0.85rem;
+  }
+  .captcha-status.is-ok {
+    @apply text-gold-light;
+    font-size: 1rem;
+  }
+  /* Passed: the track goes away and only "Verified" remains. */
+  .captcha.is-verified .captcha-track,
+  .captcha.is-verified .captcha-label {
+    @apply hidden;
+  }
+
   /* --- Social strip ------------------------------------------------------ */
   .social-strip {
     @apply bg-cream-dark px-[5%] py-10 text-center;

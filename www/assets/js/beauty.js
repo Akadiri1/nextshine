@@ -58,19 +58,23 @@
       }
     };
 
-    // Cloudflare Turnstile puts a single-use token in captcha_token once the
-    // visitor passes the security check. No widget means the check is off.
-    const captcha = $('.cf-turnstile', form);
+    // The security check: a code to read and type in, checked against the
+    // signed token it came with. No check on the form means it is off.
+    const captcha = $('[data-captcha]', form);
     const renewCaptcha = () => {
-      if (captcha && window.turnstile) window.turnstile.reset(captcha);
+      if (captcha && window.nsCaptchaRefresh) window.nsCaptchaRefresh(form);
     };
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const token = form.elements['captcha_token'];
-      if (captcha && !(token && token.value)) {
-        fail('Please complete the security check first.');
+      const answer = form.elements['captcha_answer'];
+      // The slider starts at 0, which is never the answer; a typed answer just
+      // has to be filled in.
+      const slider = answer && answer.type === 'range';
+      const ready  = answer && (slider ? Number(answer.value) > 0 : answer.value.trim() !== '');
+      if (captcha && !ready) {
+        fail(slider ? 'Please slide the handle to the target.' : 'Please enter the security code.');
         return;
       }
 
@@ -86,7 +90,11 @@
         const field = form.elements[name];
         data[name] = field ? field.value : '';
       });
-      if (captcha) data.captcha_token = token.value;
+      if (captcha) {
+        data.captcha_token  = form.elements['captcha_token'] ? form.elements['captcha_token'].value : '';
+        data.captcha_answer = answer.value;
+        data.website        = form.elements['website'] ? form.elements['website'].value : '';
+      }
 
       let result;
       try {
