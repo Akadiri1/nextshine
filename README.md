@@ -43,18 +43,27 @@ database and is edited live through ADMC.
 5. Set the SMTP details in **Website Info** (`settings_website_info`) so quote
    requests can be emailed.
 
-6. Set `CAPTCHA_SECRET` in `.env/config.php` to a long random string
-   (`php -r "echo bin2hex(random_bytes(32));"`). It secures the check on the
-   quote forms and the Beauty booking form (`v1/controllers/captcha.php`): the
-   visitor slides a puzzle piece into the gap in a picture drawn by GD, and the
-   form posts the slider position with a JWT (HS256) whose `pos` claim is the
-   gap position sealed with AES-256-GCM, alongside the issue time, a 5-minute
-   expiry and a one-time id held in the session. A slide within
-   `CAPTCHA_TOLERANCE` pixels passes; a hidden `website` field and a minimum
-   age catch the rest. `GET /captcha` hands out a fresh challenge, needed after
-   every attempt. Without GD or OpenSSL it falls back to a typed sum. No
-   third-party service and no database table. With the secret empty the check
-   is off; changing it only invalidates challenges already on screen.
+6. Nothing to set up for the check on the quote forms and the Beauty booking
+   form (`v1/controllers/captcha.php`): it signs its tokens with
+   `CAPTCHA_SECRET` from `.env/config.php` where that is set, and otherwise
+   makes a key on first use and keeps it in `.env/captcha-key.php` (PHP
+   returning a string, so it is inert if fetched as a URL; git-ignored). Set
+   the variable only to choose the key yourself, or to share one across
+   servers.
+
+   The visitor slides a handle onto a target marked in a track drawn by GD,
+   and the form posts the handle's position with a JWT (HS256) whose `pos`
+   claim is the target position sealed with AES-256-GCM, alongside the issue
+   time, a 5-minute expiry and a one-time id held in the session. Landing
+   within `CAPTCHA_TOLERANCE` pixels passes; a hidden `website` field and a
+   minimum age catch the rest. `GET /captcha` hands out a fresh challenge,
+   needed after every attempt; `POST /captcha-check` tells the page whether
+   the handle is on target so it can say "Verified", without spending the
+   token. The target is drawn teal on Cleaning and gold on Beauty
+   (`?palette=`). Without GD or OpenSSL it falls back to a typed sum. No
+   third-party service and no database table. If no key can be made or stored
+   the check is off and the forms still send; changing the key only
+   invalidates challenges already on screen.
 
 ### PRODUCTION_MODE
 

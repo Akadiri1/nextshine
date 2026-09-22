@@ -5,16 +5,20 @@
  *
  * The visitor slides a handle along a track onto a marked target. The track,
  * with its target, is drawn here; the target's position is encrypted into a
- * JWT that the form carries, signed with CAPTCHA_SECRET from .env/config.php. The token
- * also holds when it was issued, when it expires and a one-time id, so
+ * JWT that the form carries, signed with a key private to this server. The
+ * token also holds when it was issued, when it expires and a one-time id, so
  * verifying needs no database: the position never reaches the browser in
  * readable form, a token works once, and a handle left on the target passes.
+ *
+ * The key is CAPTCHA_SECRET from .env/config.php where that is set. Otherwise
+ * the site makes one on first use and keeps it in .env/captcha-key.php, so a
+ * new server needs nothing done to it by hand.
  *
  * Where the server cannot draw images (or has no OpenSSL), the check falls
  * back to a small sum, answered by typing.
  *
- * With CAPTCHA_SECRET empty the check is off: nothing is shown and requests
- * are not verified, so the forms keep working on a server without a secret.
+ * Only if no key can be made or stored is the check off: nothing is shown and
+ * requests are not verified, so the forms keep working regardless.
  */
 
 const CAPTCHA_LIFETIME   = 300;   // seconds a challenge stays valid
@@ -26,7 +30,62 @@ const CAPTCHA_HANDLE     = 64;    // the round handle, in the same units
 const CAPTCHA_TOLERANCE  = 18;    // how far from the target still counts as on it
 
 function captchaSecret() {
-    return trim((string) getenv('CAPTCHA_SECRET'));
+    static $secret = null;
+    if ($secret !== null) {
+        return $secret;
+    }
+
+    $secret = trim((string) getenv('CAPTCHA_SECRET'));
+    if ($secret === '') {
+        $secret = captchaStoredSecret();
+    }
+
+    return $secret;
+}
+
+/**
+ * The key kept beside the site's settings, made once on the first visit that
+ * needs it. Written as PHP returning a string, so that even on a server whose
+ * document root is the project itself the key cannot be fetched as a file.
+ * Returns '' if it cannot be made or stored, which leaves the check off.
+ */
+function captchaStoredSecret() {
+    $file = D_PATH . '/.env/captcha-key.php';
+
+    if (is_readable($file)) {
+        $stored = @include $file;
+        if (is_string($stored) && strlen(trim($stored)) >= 32) {
+            return trim($stored);
+        }
+    }
+
+    if (!function_exists('random_bytes') || !is_dir(dirname($file)) || !is_writable(dirname($file))) {
+        return '';
+    }
+
+    try {
+        $secret = bin2hex(random_bytes(32));
+    } catch (Exception $e) {
+        return '';
+    }
+
+    // Written under a unique name first, then moved into place, so that two
+    // visits at once cannot leave a half-written key behind.
+    $temp = $file . '.' . bin2hex(random_bytes(4)) . '.tmp';
+    if (@file_put_contents($temp, "<?php\n\n// Made by the site on first use. Keep it private; changing it only\n// ends the security checks already on people's screens.\nreturn '" . $secret . "';\n", LOCK_EX) === false) {
+        return '';
+    }
+    @chmod($temp, 0600);
+
+    if (!@rename($temp, $file)) {
+        @unlink($temp);
+        // Another visit may have written it in the meantime.
+        $stored = is_readable($file) ? @include $file : null;
+
+        return is_string($stored) && strlen(trim($stored)) >= 32 ? trim($stored) : '';
+    }
+
+    return $secret;
 }
 
 function captchaEnabled() {

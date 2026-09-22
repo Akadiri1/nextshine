@@ -41,8 +41,10 @@ putenv('PRODUCTION_MODE=true');
 putenv('ADMC_USERNAME=nextshine');
 
 # --- Security check on the forms --------------------------------------------
-// Signs the security-check tokens on the quote and booking forms. Any long
-// random string; keep it secret and do not reuse it elsewhere. Leave it empty
-// to switch the check off. Generate one with:
+// Signs the security-check tokens on the quote and booking forms. Leave this
+// empty and the site makes its own key on first use, keeping it in
+// .env/captcha-key.php: nothing needs doing on a new server. Set it only to
+// choose the key yourself, or to share one across several servers. Generate
+// one with:
 //   php -r "echo bin2hex(random_bytes(32));"
 putenv('CAPTCHA_SECRET=');
